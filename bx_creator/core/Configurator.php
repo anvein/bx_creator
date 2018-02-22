@@ -28,11 +28,11 @@ class Configurator implements IConfigurator
     /**
      * Configurator constructor
      */
-    public function __construct(array $arParams)
+    public function __construct(array $arParams = [])
     {
         if (!empty($arParams)) {
-            foreach ($arParams as $param) {
-                $this->setParam();
+            foreach ($arParams as $keyParam => $param) {
+                $this->setParam($keyParam, $param);
             }
         }
     }

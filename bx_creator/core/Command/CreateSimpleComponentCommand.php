@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Anvi\BitrixCreator\Configurator;
-use Anvi\BitrixCreator\ComponentConfigurator;
+use Anvi\BitrixCreator\CompConfigurator;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 
@@ -22,16 +22,15 @@ class CreateSimpleComponentCommand extends Command
     {
         $this
             ->setName('bxcreator:create_simcomp')
-            ->addOption(
+            ->addArgument(
                 'name',
-                null,
                 InputArgument::REQUIRED,
                 'Название компонента [news.list]'
             )
             ->addOption(
                 'path',
                 null,
-                InputArgument::REQUIRED,
+                InputOption::VALUE_REQUIRED,
                 'Путь где нужно создать компонент'
             )
             ->addOption(
@@ -39,12 +38,12 @@ class CreateSimpleComponentCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Тип компонента [simple*/complex]',
-                ComponentConfigurator::SIMPLE_COMPONENT
+                CompConfigurator::SIMPLE_COMPONENT
             )
             ->addOption(
                 'namespace',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Пространство имен в котором создать компонент (namespace)'
             )
             ->addOption(
@@ -72,13 +71,23 @@ class CreateSimpleComponentCommand extends Command
     {
         $output->writeln('===> Create Bitrix simple component');
 
-        $configurator = new ComponentConfigurator();
-        $configurator->setName($input->getArgument('name'));
-        $configurator->setPath($input->getArgument('path'));
+        $configurator = new CompConfigurator([
+            'name' => $input->getOption('name'),
+            'path' => $input->getOption('path'),
+        ]);
+
+        if ($input->getOption('type') === CompConfigurator::COMPLEX_COMPONENT) {
+            $configurator->setType(CompConfigurator::COMPLEX_COMPONENT);
+        }
+
+        if ($input->hasOption('namespace')) {
+            var_dump($input->getOption('namespace'));
+        }
 
 
 
 
+//        'type' => $input->getArgument('type'),
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Что делать?', false);
         $res = $helper->ask($input, $output, $question);
@@ -99,19 +108,6 @@ class CreateSimpleComponentCommand extends Command
         if ($input->getOption('langfile')) {
             $configurator->setParam('langfile', $input->getOption('langfile'));
         }
-
-
-
-//        if (!empty($input->getArgument('langfile'))) {
-//            $configurator->setParam('langfile', $input->getOption('langfile'));
-//        }
-//
-//        if (!empty($input->getArgument('langfile'))) {
-//            $configurator->setParam('langfile', $input->getOption('langfile'));
-//        }
-
-
-
         // TODO: Передать конструктору и profit - дальше вся движуха в конструкторе
     }
 }
