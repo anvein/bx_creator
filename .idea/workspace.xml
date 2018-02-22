@@ -1,44 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0df01952-57c4-41ae-bf12-ab060b93cb88" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/psr/log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/symfony/console" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/symfony/debug" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/bitrix_creator.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/bx_creator.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/cli.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/Application.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/Autoloader.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/Command/CreateSimpleComponentCommand.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/ComponentConfigurator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/Configurator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/core/interfaces/IConfigurator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/.description.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/.parameters.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/class.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/lang/en/class.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/lang/ru/class.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bx_creator/templates/component_simple/templates/.default/template.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/autoload.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/ClassLoader.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_files.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_namespaces.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_real.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" />
-    </list>
+    <list default="true" id="0df01952-57c4-41ae-bf12-ab060b93cb88" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +102,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="1919" />
-    <option name="y" value="-1084" />
+    <option name="y" value="-4" />
     <option name="width" value="1922" />
     <option name="height" value="1085" />
   </component>
@@ -338,12 +301,12 @@
       <workItem from="1518762956513" duration="150000" />
       <workItem from="1519231458591" duration="5175000" />
       <workItem from="1519281727217" duration="697000" />
-      <workItem from="1519284109785" duration="18058000" />
+      <workItem from="1519284109785" duration="18113000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35742000" />
+    <option name="totallyTimeSpent" value="35797000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -355,7 +318,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1919" y="-1084" width="1922" height="1085" extended-state="6" />
+    <frame x="1919" y="-4" width="1922" height="1085" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27267876" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
