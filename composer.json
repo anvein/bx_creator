@@ -1,0 +1,28 @@
+{
+    "name": "anvi/bxcreator",
+    "description": "Библиотека для создания модулей и компонентов для битрикс",
+    "type": "library",
+    "keywords": ["bitrix", "modules", "components", "модули", "компоненты", "битрикс", "конструктор"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/console": "3.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "anvi\\bxcreator\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitaly Nokhrin",
+            "email": "anvein@bk.ru"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/anvein/bx_creator"
+        }
+    ]
+}
