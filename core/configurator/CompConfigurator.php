@@ -1,6 +1,6 @@
 <?php
 
-namespace Anvi\BitrixCreator;
+namespace anvi\bxcreator;
 
 class CompConfigurator extends Configurator
 {

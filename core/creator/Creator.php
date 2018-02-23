@@ -1,6 +1,6 @@
 <?php
 
-namespace Anvi\BitrixCreator;
+namespace anvi\bxcreator;
 
 class Creator implements ICreator
 {
@@ -12,7 +12,7 @@ class Creator implements ICreator
     /**
      * Объект конфигуратора
      *
-     * @var null - \Anvi\BitrixCreator\IConfigurator
+     * @var null - \Anvi\bxcreator\IConfigurator
      */
     protected $config = null;
 

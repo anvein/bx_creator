@@ -1,17 +1,19 @@
 <?php
 
-namespace Anvi\BitrixCreator;
+namespace anvi\bxcreator;
 
-use Anvi\BitrixCreator\Command\CreateComponentCommand;
+use anvi\bxcreator\Command\CreateComponentCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 
 require_once __DIR__ . '/../../autoload.php';
 require_once __DIR__ . '/core/Autoloader.php';
 
-$aaa = Autoloader::addPaths([
+Autoloader::addPaths([
     __DIR__ . '/core/',
     __DIR__ . '/core/Command/',
+    __DIR__ . '/core/Creator/',
+    __DIR__ . '/core/Configurator/',
     __DIR__ . '/core/interfaces/',
 ]);
 Autoloader::init();
@@ -19,8 +21,9 @@ Autoloader::init();
 $app = Application::getInstance();
 $app->run();
 
+
 $consApp = new ConsoleApplication();
-$consApp->add(new CreateComponentCommand(__DIR__));
+
 // TODO: add CreateComponentComand (simple и complex отдельно???)
 
 

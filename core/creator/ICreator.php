@@ -1,6 +1,6 @@
 <?php
 
-namespace Anvi\BitrixCreator;
+namespace anvi\bxcreator;
 
 
 interface ICreator
@@ -9,7 +9,7 @@ interface ICreator
     /**
      * IConfugurator constructor.
      *
-     * @param \Anvi\BitrixCreator\IConfigurator $config - объект конфигуратора
+     * @param \Anvi\bxcreator\IConfigurator $config - объект конфигуратора
      */
     public function __construct(IConfigurator $config);
 

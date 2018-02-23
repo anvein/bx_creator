@@ -1,17 +1,18 @@
 <?php
 
-namespace Anvi\BitrixCreator\Command;
+namespace anvi\bxcreator\Command;
 
-use Anvi\BitrixCreator\IConfigurator;
+use anvi\bxcreator\IConfigurator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Anvi\BitrixCreator\Configurator;
-use Anvi\BitrixCreator\CompConfigurator;
+use anvi\bxcreator\Configurator;
+use anvi\bxcreator\CompConfigurator;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Exception;
+use anvi\bxcreator\ConsoleApplication;
 
 
 class CreateComponentCommand extends Command
@@ -119,6 +120,10 @@ class CreateComponentCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        require_once __DIR__ . '../Application/ConsoleApplication.php';
+        $consApp = ConsoleApplication::getInstance();
+
+
         $output->writeln('===> Create Bitrix component');
 
         $config = new Configurator('component');
