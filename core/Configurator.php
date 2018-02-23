@@ -10,6 +10,7 @@ class Configurator implements IConfigurator
      * Код "объекта"
      * @var null
      */
+    // TODO: нужен ли???
     static protected $code = null;
 
     /**
@@ -86,6 +87,8 @@ class Configurator implements IConfigurator
      */
     public function setPath($value)
     {
+        //$path = $_SERVER['DOCUMENT_ROOT']
+        // TODO: сделать чтобы вычислслся абсолютный путь
         return $this->setParam('path', $value);
     }
 
@@ -118,6 +121,16 @@ class Configurator implements IConfigurator
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getInfo()
+    {
+        $arInfo = [];
+        $arInfo[] = "Название объекта: {$this->name}";
+        $arInfo[] = "Путь к папке, где надо создать объект: {$this->path}";
 
+        return $arInfo;
+    }
 
 }

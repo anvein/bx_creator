@@ -53,6 +53,13 @@ interface IConfigurator
      */
     public function getPath();
 
+
+    /**
+     * Возвращает массив с настройками конфигуратора
+     * @return array - настройки конфигуратора
+     */
+    public function getInfo();
+
     /**
      * Валидация параметров конфигуратора
      * @return array $arErrors - массив с сообщениями об ошибках

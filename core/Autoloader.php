@@ -42,24 +42,40 @@ class Autoloader
 
     /**
      * Добавление путей для поиска файлов с классами
-     * @param array $paths - пути поиска файлов
+     * @return array $paths - пути поиска файлов
+     * @return array $arPaths - пути поиска файлов с классами
      * @throws Exception - в случае, если пути поиска не заданы или один из них не существует
      */
-    public static function addPath(array $paths)
+    public static function addPaths(array $paths)
     {
         if (empty($paths)) {
             throw new \Exception('Не переданы пути поиска файлов с классми $paths');
         }
 
         foreach ($paths as $path) {
-            if (is_dir($path)) {
-                self::$arPaths[] = $path;
-            } else {
-                throw new Exception("Путь для поиска файлов с классами не существует {$path}");
-            }
+            self::addPath($path);
+        }
+        return self::$arPaths;
+    }
+
+    /**
+     * Добавление путей для поиска файлов с классами
+     * @param  string $path - путь поиска файлов
+     * @return array $arPaths - пути поиска файлов с классами
+     * @throws Exception - в случае, если путь поиска не задан или не существует
+     */
+    public static function addPath($path)
+    {
+        if (empty($path)) {
+            throw new \Exception('Не передан путь поиска файлов с классми $path');
         }
 
-        self::$arPaths += $paths;
+        if (is_dir($path)) {
+            self::$arPaths[] = $path;
+            return self::$arPaths;
+        } else {
+            throw new Exception("Путь для поиска файлов с классами не существует {$path}");
+        }
     }
 
 }
