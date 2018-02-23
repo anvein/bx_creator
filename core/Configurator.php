@@ -10,8 +10,7 @@ class Configurator implements IConfigurator
      * Код "объекта"
      * @var null
      */
-    // TODO: нужен ли???
-    static protected $code = null;
+    protected $code = null;
 
     /**
      * Путь к папке, где надо создать "объект"
@@ -29,20 +28,25 @@ class Configurator implements IConfigurator
     /**
      * Configurator constructor
      */
-    public function __construct(array $arParams = [])
+    public function __construct($code)
     {
-        if (!empty($arParams)) {
-            foreach ($arParams as $keyParam => $param) {
-                $this->setParam($keyParam, $param);
-            }
+        if (empty($code)) {
+            throw new Exception('Не передан обязательный атрибут $code');
+        } else {
+            $this->code = $code;
         }
     }
 
 
+
     /**
-     * @inheritdoc
+     * Задает значение $value параметру $codeParam в конфигураторе
+     * @param $codeParam
+     * @param $value - значение
+     * @return $this - объект конфигуратора
+     * @throws Exception - если у конфигуратора нет параметра $codeParam
      */
-    public function setParam($codeParam, $value)
+    protected function setParam($codeParam, $value)
     {
         if (property_exists($this, $codeParam)) {
             $this->$codeParam = $value;
@@ -54,9 +58,12 @@ class Configurator implements IConfigurator
     }
 
     /**
-     * @inheritdoc
+     * Получает значение параметра $codeParam из конфигуратора
+     * @param $codeParam - код параметра
+     * @return mixed - значение параметра
+     * @throws Exception - если у конфигуратора нет параметра $codeParam
      */
-    public function getParam($codeParam)
+    protected function getParam($codeParam)
     {
         if (property_exists($this, $codeParam)) {
             return $this->$codeParam;
@@ -87,8 +94,6 @@ class Configurator implements IConfigurator
      */
     public function setPath($value)
     {
-        //$path = $_SERVER['DOCUMENT_ROOT']
-        // TODO: сделать чтобы вычислслся абсолютный путь
         return $this->setParam('path', $value);
     }
 
@@ -107,11 +112,13 @@ class Configurator implements IConfigurator
     {
         $errors = [];
         if (empty($this->name)) {
-            $errors[] = "Не указано название объекта {$this->code}";
+            $errors[] = "Не указано название {$this->code}";
         }
 
-        if (empty(empty($this->path))) {
-            $errors[] = "Не указан путь где должен быть создан объект {$this->code}";
+        if (empty($this->path)) {
+            $errors[] = "Не указан путь где должен быть создан {$this->code}";
+        } elseif (is_dir($this->path)) {
+            $errors[] = "Путь, где должен быть создан {$this->code} не существует";
         }
 
         if (empty($errors)) {

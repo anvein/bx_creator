@@ -20,7 +20,7 @@ $app = Application::getInstance();
 $app->run();
 
 $consApp = new ConsoleApplication();
-$consApp->add(new CreateComponentCommand());
+$consApp->add(new CreateComponentCommand(__DIR__));
 // TODO: add CreateComponentComand (simple и complex отдельно???)
 
 

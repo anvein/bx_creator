@@ -11,10 +11,47 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Anvi\BitrixCreator\Configurator;
 use Anvi\BitrixCreator\CompConfigurator;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Exception;
 
 
 class CreateComponentCommand extends Command
 {
+    /**
+     * Папка из которой происходит запуск скрипта
+     * @var null
+     */
+    protected $launchDir = null;
+
+
+    /**
+     * InputInterface  $input
+     * @var null
+     */
+    protected $input = null;
+
+    /**
+     * OutputInterface  $input
+     * @var null
+     */
+    protected $output = null;
+
+    /**
+     * CreateComponentCommand constructor.
+     * @param string $launchDir - путь, откуда будет запущен скрипт
+     * @throws Exception - если путь $launchDir не существует или не указан
+     */
+    public function __construct($launchDir)
+    {
+        if (empty($launchDir)) {
+            throw new \Exception('Не указан обязательный аргумент $launchDir');
+        } elseif (!is_dir($launchDir)) {
+            throw new \Exception("Указанный путь {$launchDir} не существует");
+        }
+
+        $this->launchDir =  realpath($launchDir);
+
+        parent::__construct();
+    }
 
     /**
      * @inheritdoc
@@ -84,34 +121,20 @@ class CreateComponentCommand extends Command
     {
         $output->writeln('===> Create Bitrix component');
 
-        // установка параметров
-        $config = new CompConfigurator([
-            'name' => $input->getArgument('name'),
-            'path' => $input->getArgument('path'),
-        ]);
+        $config = new Configurator('component');
+        $config = $this->setConfugParams($config, $input);
 
-        if ($input->getOption('type') === CompConfigurator::COMPLEX_COMPONENT) {
-            $config->setType(CompConfigurator::COMPLEX_COMPONENT);
-        } else {
-            $config->setType(CompConfigurator::SIMPLE_COMPONENT);
+        $resValidate = $config->validate();
+        if (is_array($resValidate)) {
+            $this->printArray($resValidate, 'Обнаружены ошибки в параметрах:', $output);
         }
 
-        $config->setParam('namespace', $input->getOption('namespace'))
-            ->setParam('createLang', $input->getOption('langfile'))
-            ->setParam('createParams', $input->getOption('parameters'))
-            ->setParam('createDescr', $input->getOption('description'));
-
-        $arComplexFiles = $input->getOption('complex_files');
-        if (!empty($arComplexFiles)) {
-            $config->setParam('complexFiles', $arComplexFiles);
-        }
-
-        // подтверждение создания
-        if (!$this->approveCreating($input, $output, $config)) {
-            $output->writeln('ОТмена создания компонента');
-        } else {
-            $output->writeln('Создаем компонент');
+        // подтверждение пользователя
+        if ($this->approveCreating($input, $output, $config)) {
             // TODO: передать creatoru конфиг
+
+        } else {
+            $output->writeln('Отмена создания компонента');
         }
     }
 
@@ -154,6 +177,27 @@ class CreateComponentCommand extends Command
         $result = $helper->ask($input, $output, $question);
 
         return $result;
+    }
+
+
+
+    /**
+     * Задает параметры конфигуратору из $input
+     * @param IConfigurator  $config - объект конфигуратора
+     * @param InputInterface $input - объект ввода консоли
+     * @return IConfigurator - объект конфигуратора с заданными настройками
+     */
+    private function setConfugParams(IConfigurator $config, InputInterface $input)
+    {
+        return $config
+            ->setName($input->getArgument('name'))
+            ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $input->getArgument('path'))
+            ->setNamespace($input->getArgument('namespace'))
+            ->setCreateLang($input->getOption('langfile'))
+            ->setCreateParams($input->getOption('parameters'))
+            ->setComplexFiles($input->getOption('complex_files'))
+            ->setCreateDescr($input->getOption('description'))
+            ->setType($input->getOption('type'));
     }
 
 }

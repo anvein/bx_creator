@@ -7,24 +7,10 @@ interface IConfigurator
 
     /**
      * IConfigurator constructor.
-     * @param array $arParams - массив параметров конфигуратора, которые нужно установить
+     * @param string $code - код объекта конфигуратора
      */
-    public function __construct(array $arParams);
+    public function __construct($code);
 
-    /**
-     * Задает значение $value параметру $codeParam в конфигураторе
-     * @param $codeParam - код параметра
-     * @param $value - значение
-     * @return $this - объект конфигуратора
-     */
-    public function setParam($codeParam, $value);
-
-    /**
-     * Получает значение параметра $codeParam из конфигуратора
-     * @param $codeParam - код параметра
-     * @return mixed - значение параметра
-     */
-    public function getParam($codeParam);
 
     /**
      * Задает значение $value параметру name в конфигураторе
