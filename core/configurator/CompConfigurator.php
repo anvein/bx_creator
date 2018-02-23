@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bxcreator;
+namespace anvi\bxcreator\configurator;
 
 class CompConfigurator extends Configurator
 {

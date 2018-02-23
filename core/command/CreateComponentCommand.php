@@ -1,18 +1,18 @@
 <?php
 
-namespace anvi\bxcreator\Command;
+namespace anvi\bxcreator\command;
 
-use anvi\bxcreator\IConfigurator;
+use anvi\bxcreator\Application;
+use anvi\bxcreator\Color;
+use anvi\bxcreator\configurator\IConfigurator;
+use anvi\bxcreator\configurator\CompConfigurator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use anvi\bxcreator\Configurator;
-use anvi\bxcreator\CompConfigurator;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Exception;
-use anvi\bxcreator\ConsoleApplication;
 
 
 class CreateComponentCommand extends Command
@@ -60,7 +60,7 @@ class CreateComponentCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('bxcreator:create_simcomp')
+            ->setName('bxcreator:create_comp')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
@@ -120,26 +120,25 @@ class CreateComponentCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        require_once __DIR__ . '../Application/ConsoleApplication.php';
-        $consApp = ConsoleApplication::getInstance();
+        //$app = Application::getInstance();
 
+        $output->writeln(Color::ap('===> Create Bitrix component', 'g'));
 
-        $output->writeln('===> Create Bitrix component');
-
-        $config = new Configurator('component');
-        $config = $this->setConfugParams($config, $input);
+        $config = new CompConfigurator('component');
+        $config = $this->setConfigParams($config, $input);
 
         $resValidate = $config->validate();
         if (is_array($resValidate)) {
-            $this->printArray($resValidate, 'Обнаружены ошибки в параметрах:', $output);
+            $this->printArray($resValidate, Color::ap('Обнаружены ошибки в параметрах:', 'r'), $output);
         }
 
         // подтверждение пользователя
         if ($this->approveCreating($input, $output, $config)) {
             // TODO: передать creatoru конфиг
 
+            $output->writeln(Color::ap('Компонент успешно создан', 'g'));
         } else {
-            $output->writeln('Отмена создания компонента');
+            $output->writeln(Color::ap('Отмена создания компонента', 'r'));
         }
     }
 
@@ -153,7 +152,7 @@ class CreateComponentCommand extends Command
     private function printArray(array $arInfo = [], $title = '', OutputInterface $output)
     {
         if (!empty($title)) {
-            $output->writeln($title);
+            $output->writeln(Color::ap($title, 'y'));
         }
 
         if (!empty($arInfo)) {
@@ -174,16 +173,18 @@ class CreateComponentCommand extends Command
     private function approveCreating(InputInterface $input, OutputInterface $output, IConfigurator $config)
     {
         $arInfo = $config->getInfo();
-        $output->writeln('==== Все ли настройки указаны верно');
+        $output->writeln(Color::ap("==== Проверьте указанные параметры", 'y'));
         $this->printArray($arInfo, null, $output);
 
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Всё верно? Продолжить создание компонента? [y/n]', false);
+        $question = new ConfirmationQuestion(
+            Color::ap('Всё верно? Продолжить создание компонента? [y/n]', 'y'),
+            false
+        );
         $result = $helper->ask($input, $output, $question);
 
         return $result;
     }
-
 
 
     /**
@@ -192,12 +193,12 @@ class CreateComponentCommand extends Command
      * @param InputInterface $input - объект ввода консоли
      * @return IConfigurator - объект конфигуратора с заданными настройками
      */
-    private function setConfugParams(IConfigurator $config, InputInterface $input)
+    private function setConfigParams(IConfigurator $config, InputInterface $input)
     {
         return $config
             ->setName($input->getArgument('name'))
             ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $input->getArgument('path'))
-            ->setNamespace($input->getArgument('namespace'))
+            ->setNamespace($input->getOption('namespace'))
             ->setCreateLang($input->getOption('langfile'))
             ->setCreateParams($input->getOption('parameters'))
             ->setComplexFiles($input->getOption('complex_files'))

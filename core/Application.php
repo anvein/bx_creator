@@ -2,14 +2,13 @@
 
 namespace anvi\bxcreator;
 
-use anvi\bxcreator\Autoloader;
-
 class Application
 {
     /**
      * путь к composer autoload.php
+     * // TODO: нужен ли?
      */
-    const COMPOSER_PATH = __DIR__ . '/../../../../autoload.php';
+    const COMPOSER_PATH = '/../../../autoload.php';
 
     /**
      * @var null - объект приложения
@@ -17,27 +16,11 @@ class Application
     private static $instance = null;
 
     /**
-     * @var array - пути для автозагрузчика
-     */
-    protected static $autoloadPaths = [
-        __DIR__ . '/..',
-        __DIR__ . '/../Application',
-        __DIR__ . '/../Configurator',
-        __DIR__ . '/../Creator',
-    ];
-
-
-    /**
      * Application constructor.
      */
     public function __construct()
     {
-        require_once __DIR__ . '../Autoloader.php';
-        Autoloader::addPaths(static::getAutoloadPaths());
-        Autoloader::init();
-
-
-
+        require_once __DIR__ . self::COMPOSER_PATH;
     }
 
     /**
@@ -55,23 +38,10 @@ class Application
 
 
     /**
-     * Возвращает пути автозагрузчика
-     * @return array
-     */
-    protected static function getAutoloadPaths()
-    {
-        return static::$autoloadPaths;
-    }
-
-
-    /**
      * Запуск приложения
      */
     public function run()
     {
-
-
-
 
         return true;
     }
