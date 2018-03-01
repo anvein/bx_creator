@@ -3,9 +3,9 @@
 namespace anvi\bxcreator\creator;
 
 use anvi\bxcreator\Application;
-use anvi\bxcreator\creator\Creator;
 use anvi\bxcreator\tools\FileManager;
-use Bitrix\Main\IO\File;
+use anvi\bxcreator\tools\Helper;
+use anvi\bxcreator\tools\Replacer;
 
 class SimpleCompCreator extends Creator
 {
@@ -35,29 +35,34 @@ class SimpleCompCreator extends Creator
         }
 
         $fromPath = $rootDir . '/templates/component_simple';
-        $toTmpPath = $rootDir . FileManager::TMP_DIR . '/' . $this->config->getName();
-        if (!FileManager::copyDir($fromPath, $toTmpPath)) {
+        $pathTmpComp = $rootDir . FileManager::TMP_DIR . '/' . $this->config->getName();
+        if (!FileManager::copyDir($fromPath, $pathTmpComp)) {
             $this->addError("Не удалось скопировать дирректорию компонента во временную дирректорию");
         }
 
 
+        if (!$this->config->getCreateParams()) {
+            unlink("{$pathTmpComp}/.parameters.php");
+        }
 
 
+        if (!$this->config->getCreateDescr()) {
+            unlink("{$pathTmpComp}/.description.php");
+        }
+
+        $namespace = '';
+        if (!empty($this->config->getNamespace())) {
+            $namespace = "namespace {$this->config->getNamespace()};";
+        }
 
 
-
-
-
-
-
-
-
-//        echo '<pre>';
-//        print_r($this->getErrors());
-//        echo '</pre>';
-//        die();
-
-
+        Replacer::replaceHashstags(
+            [
+                '#NAMESPACE#' => $namespace,
+                '#CLASS_NAME#' => Helper::strToCamelCase($this->config->getName()),
+            ],
+            $pathTmpComp . '/class.php'
+        );
 
         return true;
     }
