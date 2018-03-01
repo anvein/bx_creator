@@ -2,7 +2,10 @@
 
 namespace anvi\bxcreator;
 
-class Creator implements ICreator
+use anvi\bxcreator\configurator\IConfigurator;
+use Exception;
+
+class Creator implements ICreator, IError
 {
     /**
      * @var array - Массив с ошибками
@@ -12,7 +15,7 @@ class Creator implements ICreator
     /**
      * Объект конфигуратора
      *
-     * @var null - \Anvi\bxcreator\IConfigurator
+     * @var null - \anvi\bxcreator\configurator\IConfigurator
      */
     protected $config = null;
 
@@ -29,24 +32,45 @@ class Creator implements ICreator
     /**
      * @inheritdoc
      */
-    public function getErrors()
+    public function run()
     {
-        if (!empty($this->errors)) {
-            return $this->errors;
-        } else {
+        if (!$this->config->validate()) {
             return false;
         }
+
+        return true;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function run()
+    public function addError($error)
     {
+        if (!(is_string($error) && is_array($error))) {
+            throw new Exception('Аргумент $error должен быть строкой или массивом');
+        }
 
+        if (is_string($error)) {
+            $this->errors[] = $error;
+        } elseif (is_array($error)) {
+            $this->errors += $error;
+        }
+
+        return true;
     }
 
 
+    /**
+     * @inheritdoc
+     */
+    public function getErrors()
+    {
+        if (empty($this->errors)) {
+            return false;
+        } else {
+            return $this->errors;
+        }
+    }
 
 }

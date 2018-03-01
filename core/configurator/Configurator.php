@@ -2,15 +2,17 @@
 
 namespace anvi\bxcreator\configurator;
 
+use anvi\bxcreator\IError;
 use Exception;
 
-class Configurator implements IConfigurator
+class Configurator implements IConfigurator, IError
 {
     /**
      * Код "объекта"
      * @var null
      */
     protected $code = null;
+    protected $errors = [];
 
     /**
      * Путь к папке, где надо создать "объект"
@@ -51,7 +53,7 @@ class Configurator implements IConfigurator
         if (property_exists($this, $codeParam)) {
             $this->$codeParam = $value;
         } else {
-            throw new Exception("У конфигуратора нет свойства (параметра) {$codeParam}");
+            throw new Exception("У конфиша нет параметра {$codeParam}");
         }
 
         return $this;
@@ -68,7 +70,7 @@ class Configurator implements IConfigurator
         if (property_exists($this, $codeParam)) {
             return $this->$codeParam;
         } else {
-            throw new Exception("У конфигуратора нет свойства (параметра) {$codeParam}");
+            throw new Exception("У конфига нет параметра {$codeParam}");
         }
     }
 
@@ -138,6 +140,37 @@ class Configurator implements IConfigurator
         $arInfo[] = "Путь к папке, где надо создать объект: {$this->path}";
 
         return $arInfo;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addError($error)
+    {
+       if (!(is_string($error) && is_array($error))) {
+           throw new Exception('Аргумент $error должен быть строкой или массивом');
+       }
+
+       if (is_string($error)) {
+           $this->errors[] = $error;
+       } elseif (is_array($error)) {
+           $this->errors += $error;
+       }
+
+       return true;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getErrors()
+    {
+       if (empty($this->errors)) {
+           return false;
+       } else {
+           return $this->errors;
+       }
     }
 
 }

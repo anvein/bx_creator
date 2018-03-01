@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bxcreator;
+namespace anvi\bxcreator\tools;
 
 class Color
 {
@@ -11,13 +11,16 @@ class Color
         'yellow' => "\x1b[33m",
         'white' => "\033[37m",
     ];
+
+
+
     /**
      * Красит (ap - apply, применяет) цвет к строке для консоли
      * @param        $str - исходная строка
      * @param string $color - название цвета (или первая буква)
      * @return string - раскрашенная строка
      */
-    public static function ap($str, $color = 'white')
+    public static function colorize($str, $color = 'white')
     {
         if (empty($str)) {
             return '';
@@ -42,6 +45,18 @@ class Color
 
         $defaultColorCode = self::$colors['white'];
         return $colorCode . $str . $defaultColorCode;
+    }
+
+
+    /**
+     * Псевдоним self::colorize()
+     * @param $str
+     * @param string $color
+     * @return string
+     */
+    public static function col($str, $color = 'white')
+    {
+        return Color::colorize($str, $color);
     }
 
 }

@@ -13,6 +13,25 @@ class CompConfigurator extends Configurator
     protected $createDescr = false;
     protected $createLang = false;
 
+    // TODO: переделатьв  объект ConfParam (как то станадартизировать эти параметры)
+    /**
+     * @var array
+     * структура:
+     * [
+     *      'язык1' => [
+     *          'file1' => [
+     *              'ключ_языковой_фразы' => 'Фраза 1',
+     *              ...
+     *          ],
+     *          'file2' => [
+     *              ...
+     *          ]
+     *      ],
+     *      'язык2' => null // создаст файлы по умолчанию для язык2
+     * ]
+     */
+    protected $createLangParams = [];
+
     protected $complexFiles = [];
 
     /**
@@ -116,6 +135,26 @@ class CompConfigurator extends Configurator
 
 
     /**
+     * Установка параметра createLangParams конфигуратора
+     * @param $value
+     * @return $this
+     */
+    public function setCreateLangParams($value)
+    {
+        return $this->setParam('createLangParams', (array)$value);
+    }
+
+    /**
+     * Возвращает параметр createLangParams конфигуратора
+     * @return mixed - значение параметра конфигуратора createLang
+     */
+    public function getCreateLangParams()
+    {
+        return $this->getParam('createLangParams');
+    }
+
+
+    /**
      * Установка параметра complexFiles конфигуратора
      * @param $value - значение параметра complexFiles
      * @return $this - объект конфигуратора
@@ -149,7 +188,7 @@ class CompConfigurator extends Configurator
         $arAllowType = [self::SIMPLE_COMPONENT, self::COMPLEX_COMPONENT];
         $type = $this->getType();
         if (!in_array($type, $arAllowType, true)) {
-            $arErrors[] = "Неизвестный тип компонента (type) {$type}";
+            $arErrors[] = "Неизвестный тип компонента {$type}";
         }
 
         if (empty($errors)) {
@@ -175,7 +214,7 @@ class CompConfigurator extends Configurator
         $arInfo[] = "Создавать ли lang файлы: " . $this->tfConvert($this->createLang);
 
         if ($this->type === self::COMPLEX_COMPONENT) {
-            $arInfo[] = "Создаватьф айлы комплексного компонента: " . implode(', ', $this->complexFiles);
+            $arInfo[] = "Создавать файлы комплексного компонента: " . implode(', ', $this->complexFiles);
         }
 
         return $arInfo;

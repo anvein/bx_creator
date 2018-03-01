@@ -48,7 +48,7 @@ interface IConfigurator
 
     /**
      * Валидация параметров конфигуратора
-     * @return array $arErrors - массив с сообщениями об ошибках
+     * @return bool - если валидация не прошла, то false, иначе true
      */
     public function validate();
 
