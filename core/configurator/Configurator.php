@@ -96,6 +96,10 @@ class Configurator implements IConfigurator, IError
      */
     public function setPath($value)
     {
+        if ($value[strlen($value) - 1] === DIRECTORY_SEPARATOR) {
+            $value = substr($value, 0, -1);
+        }
+
         return $this->setParam('path', $value);
     }
 

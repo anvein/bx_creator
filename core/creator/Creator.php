@@ -48,7 +48,7 @@ class Creator implements ICreator, IError
      */
     public function addError($error)
     {
-        if (!(is_string($error) && is_array($error))) {
+        if (!(is_string($error) && !is_array($error))) {
             throw new Exception('Аргумент $error должен быть строкой или массивом');
         }
 

@@ -5,6 +5,7 @@ namespace anvi\bxcreator\creator;
 use anvi\bxcreator\Application;
 use anvi\bxcreator\creator\Creator;
 use anvi\bxcreator\tools\FileManager;
+use Bitrix\Main\IO\File;
 
 class SimpleCompCreator extends Creator
 {
@@ -17,12 +18,34 @@ class SimpleCompCreator extends Creator
             return false;
         }
 
-        FileManager::createTmpDir();
+        $app = Application::getInstance();
+        $rootDir = $app->getRootDir();
 
-        if (is_dir($this->config->getPath())) {
-            $this->addError("Папка {$this->config->getPath()} не существует");
+        FileManager::reCreateTmpDir();
+
+        if (!is_dir($this->config->getPath())) {
+            $this->addError("Дирректории с компонентами {$this->config->getPath()} не существует");
             return false;
         }
+
+        $compPath = $this->config->getPath() . '/' . $this->config->getName();
+        if (is_dir($compPath)) {
+            $this->addError("Компонент {$this->config->getName()} уже существует");
+            return false;
+        }
+
+        $fromPath = $rootDir . '/templates/component_simple';
+        $toTmpPath = $rootDir . FileManager::TMP_DIR . '/' . $this->config->getName();
+        if (!FileManager::copyDir($fromPath, $toTmpPath)) {
+            $this->addError("Не удалось скопировать дирректорию компонента во временную дирректорию");
+        }
+
+
+
+
+
+
+
 
 
 
