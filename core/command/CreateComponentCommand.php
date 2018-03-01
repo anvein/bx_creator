@@ -3,6 +3,8 @@
 namespace anvi\bxcreator\command;
 
 use anvi\bxcreator\Application;
+use anvi\bxcreator\creator\Creator;
+use anvi\bxcreator\creator\SimpleCompCreator;
 use anvi\bxcreator\tools\Color;
 use anvi\bxcreator\configurator\IConfigurator;
 use anvi\bxcreator\configurator\CompConfigurator;
@@ -85,10 +87,10 @@ class CreateComponentCommand extends Command
                 'Пространство имен в котором создать компонент (namespace)'
             )
             ->addOption(
-                'langs',
+                'lang',
                 null,
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-                'Создавать ли lang файлы',
+                'Для каких языков создать lang файлы [--lang=ru --lang=en]',
                 []
             )
             ->addOption(
@@ -104,7 +106,7 @@ class CreateComponentCommand extends Command
                 'Создавать ли файл .description.php'
             )
             ->addOption(
-                'complex_files',
+                'complex_file',
                 null,
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                 'Какие создать файлы для комплексного компонента? [news.php]',
@@ -134,8 +136,20 @@ class CreateComponentCommand extends Command
         }
 
         // подтверждение пользователя
-        if ($this->approveCreating($input, $output, $config)) {
-            // TODO: передать creatoru конфиг
+        // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEV-VALUE
+        if (/*$this->approveCreating($input, $output, $config) ||*/ true) {
+            $creator = new SimpleCompCreator($config);
+
+            $resCreatorRun = $creator->run();
+            if (!$resCreatorRun){
+                $arErrors = $creator->getErrors();
+                $this->printArray(
+                    $arErrors,
+                    Color::col('При создании компонента возникли ошибки:', 'r'),
+                    $output
+                );
+                $output->writeln(Color::col('Компонент не создан', 'r'));
+            }
 
             $output->writeln(Color::col('Компонент успешно создан', 'g'));
         } else {
@@ -200,9 +214,9 @@ class CreateComponentCommand extends Command
             ->setName($input->getArgument('name'))
             ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $input->getArgument('path'))
             ->setNamespace($input->getOption('namespace'))
-            ->setCreateLang($input->getOption('langs'))
+            ->setLangFiles($input->getOption('lang'))
             ->setCreateParams($input->getOption('params'))
-            ->setComplexFiles($input->getOption('complex_files'))
+            ->setComplexFiles($input->getOption('complex_file'))
             ->setCreateDescr($input->getOption('descr'))
             ->setType($input->getOption('type'));
     }

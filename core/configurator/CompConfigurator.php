@@ -13,7 +13,7 @@ class CompConfigurator extends Configurator
     protected $createDescr = false;
     protected $createLang = false;
 
-    // TODO: переделатьв  объект ConfParam (как то станадартизировать эти параметры)
+    // TODO: переделать в объект ConfParam (как то станадартизировать эти параметры)
     /**
      * @var array
      * структура:
@@ -30,8 +30,7 @@ class CompConfigurator extends Configurator
      *      'язык2' => null // создаст файлы по умолчанию для язык2
      * ]
      */
-    protected $createLangParams = [];
-
+    protected $langFiles = [];
     protected $complexFiles = [];
 
     /**
@@ -128,9 +127,9 @@ class CompConfigurator extends Configurator
      * Возвращает параметр createLang конфигуратора
      * @return mixed - значение параметра конфигуратора createLang
      */
-    public function getCreateLang()
+    public function getLangFiles()
     {
-        return $this->getParam('createLang');
+        return $this->getParam('langFiles');
     }
 
 
@@ -139,18 +138,9 @@ class CompConfigurator extends Configurator
      * @param $value
      * @return $this
      */
-    public function setCreateLangParams($value)
+    public function setLangFiles($value)
     {
-        return $this->setParam('createLangParams', (array)$value);
-    }
-
-    /**
-     * Возвращает параметр createLangParams конфигуратора
-     * @return mixed - значение параметра конфигуратора createLang
-     */
-    public function getCreateLangParams()
-    {
-        return $this->getParam('createLangParams');
+        return $this->setParam('langFiles', (array)$value);
     }
 
 
@@ -172,8 +162,6 @@ class CompConfigurator extends Configurator
     {
         return $this->getParam('complexFiles');
     }
-
-
 
     /**
      * @inheritdoc
@@ -208,10 +196,10 @@ class CompConfigurator extends Configurator
         $arInfo[] = "Тип компонента: {$this->type}";
         $arInfo[] = "Название компонента: {$this->name}";
         $arInfo[] = "Путь где надо создать компонент: {$this->path}";
-        $arInfo[] = "namespace: {$this->namespace}";
+        $arInfo[] = "namespace: {$this->getNamespace()}";
         $arInfo[] = "Создавать ли файл .parameters.php: " . $this->tfConvert($this->createParams);
         $arInfo[] = "Создавать ли файл .description.php: " . $this->tfConvert($this->createDescr);
-        $arInfo[] = "Создавать ли lang файлы: " . $this->tfConvert($this->createLang);
+        $arInfo[] = "Создавать lang файлы для языков: " . implode(', ', $this->createLang);
 
         if ($this->type === self::COMPLEX_COMPONENT) {
             $arInfo[] = "Создавать файлы комплексного компонента: " . implode(', ', $this->complexFiles);
@@ -235,4 +223,5 @@ class CompConfigurator extends Configurator
             return 'Да';
         }
     }
+
 }

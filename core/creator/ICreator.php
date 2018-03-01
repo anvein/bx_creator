@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bxcreator;
+namespace anvi\bxcreator\creator;
 
 use anvi\bxcreator\configurator\IConfigurator;
 

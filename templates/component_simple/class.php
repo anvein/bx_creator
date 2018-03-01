@@ -1,10 +1,10 @@
 <?php
 
-namespace MyNamespace;
+#NAMESPACE#
 
 use CBitrixComponent;
 
-class ClassName extends CBitrixComponent
+class #CLASS_NAME# extends CBitrixComponent
 {
     /**
      * Подготовка входных параметров компонента

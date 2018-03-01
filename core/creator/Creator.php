@@ -1,9 +1,10 @@
 <?php
 
-namespace anvi\bxcreator;
+namespace anvi\bxcreator\creator;
 
 use anvi\bxcreator\configurator\IConfigurator;
 use Exception;
+use anvi\bxcreator\IError;
 
 class Creator implements ICreator, IError
 {
