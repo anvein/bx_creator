@@ -36,6 +36,7 @@ class Creator implements ICreator, IError
     public function run()
     {
         if (!$this->config->validate()) {
+            $this->addError($this->config->getErrors());
             return false;
         }
 
@@ -48,18 +49,17 @@ class Creator implements ICreator, IError
      */
     public function addError($error)
     {
-        if (!(is_string($error) && !is_array($error))) {
-            throw new Exception('Аргумент $error должен быть строкой или массивом');
-        }
-
         if (is_string($error)) {
             $this->errors[] = $error;
         } elseif (is_array($error)) {
             $this->errors += $error;
+        } else {
+            throw new Exception('Аргумент $error должен быть строкой или массивом');
         }
 
         return true;
     }
+
 
 
     /**

@@ -2,6 +2,8 @@
 
 namespace anvi\bxcreator\configurator;
 
+use anvi\bxcreator\tools\Helper;
+
 class CompConfigurator extends Configurator
 {
     const SIMPLE_COMPONENT = 'simple';
@@ -60,6 +62,7 @@ class CompConfigurator extends Configurator
      */
     public function setNamespace($value)
     {
+        $value = Helper::prepareNamescape($value);
         return $this->setParam('namespace', (string)$value);
     }
 
@@ -171,6 +174,8 @@ class CompConfigurator extends Configurator
         $arErrors = [];
 
         $parResult = parent::validate();
+        print_r($parResult);
+        die();
         $arErrors += is_array($parResult) ? $parResult : [];
 
         $arAllowType = [self::SIMPLE_COMPONENT, self::COMPLEX_COMPONENT];
@@ -179,10 +184,10 @@ class CompConfigurator extends Configurator
             $arErrors[] = "Неизвестный тип компонента {$type}";
         }
 
-        if (empty($errors)) {
+        if (empty($arErrors)) {
             return true;
         } else {
-            return $errors;
+            return $arErrors;
         }
     }
 
@@ -191,15 +196,16 @@ class CompConfigurator extends Configurator
      */
     public function getInfo()
     {
-        $arInfo = [];
-
-        $arInfo[] = "Тип компонента: {$this->type}";
-        $arInfo[] = "Название компонента: {$this->name}";
-        $arInfo[] = "Путь где надо создать компонент: {$this->path}";
-        $arInfo[] = "namespace: {$this->getNamespace()}";
-        $arInfo[] = "Создавать ли файл .parameters.php: " . $this->tfConvert($this->createParams);
-        $arInfo[] = "Создавать ли файл .description.php: " . $this->tfConvert($this->createDescr);
-        $arInfo[] = "Создавать lang файлы для языков: " . implode(', ', $this->createLang);
+        $arInfo = [
+            "Тип компонента: {$this->type}",
+            "Название компонента: {$this->name}",
+            "Путь где надо создать компонент: {$this->path}",
+            "namespace: {$this->getNamespace()}",
+            "Создавать ли файл .parameters.php: " . Helper::tfConvert($this->createParams),
+            "Создавать ли файл .description.php: " . Helper::tfConvert($this->createDescr),
+            "Создавать ли файл .description.php: " . Helper::tfConvert($this->createDescr),
+            "Создавать lang файлы для языков: " . Helper::tfConvert($this->createLang),
+        ];
 
         if ($this->type === self::COMPLEX_COMPONENT) {
             $arInfo[] = "Создавать файлы комплексного компонента: " . implode(', ', $this->complexFiles);
@@ -208,20 +214,5 @@ class CompConfigurator extends Configurator
         return $arInfo;
     }
 
-
-    /**
-     * TODO: ввынести во вспомогательный класс мб?
-     * Конвертирует true в Да, false и empty в нет
-     * @param null $param - конверируемый параметр
-     * @return string - да или нет
-     */
-    protected function tfConvert($param = null)
-    {
-        if (empty($param)) {
-            return 'Нет';
-        } else {
-            return 'Да';
-        }
-    }
 
 }

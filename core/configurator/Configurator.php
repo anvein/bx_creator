@@ -121,6 +121,11 @@ class Configurator implements IConfigurator, IError
             $errors[] = "Не указано название {$this->code}";
         }
 
+//        // TODO: валидировать name
+//        if (preg_match('//', $this->name) === 1) {
+//            $errors[] = "Не указано название {$this->code}";
+//        }
+
         if (empty($this->path)) {
             $errors[] = "Не указан путь где должен быть создан {$this->code}";
         } elseif (is_dir($this->path)) {
@@ -130,7 +135,8 @@ class Configurator implements IConfigurator, IError
         if (empty($errors)) {
             return true;
         } else {
-            return $errors;
+            $this->addError($errors);
+            return false;
         }
     }
 
@@ -139,11 +145,10 @@ class Configurator implements IConfigurator, IError
      */
     public function getInfo()
     {
-        $arInfo = [];
-        $arInfo[] = "Название объекта: {$this->name}";
-        $arInfo[] = "Путь к папке, где надо создать объект: {$this->path}";
-
-        return $arInfo;
+        return $arInfo = [
+            "Название объекта: {$this->name}",
+            "Путь к папке, где надо создать объект: {$this->path}",
+        ];
     }
 
     /**
@@ -151,14 +156,12 @@ class Configurator implements IConfigurator, IError
      */
     public function addError($error)
     {
-       if (!(is_string($error) && is_array($error))) {
-           throw new Exception('Аргумент $error должен быть строкой или массивом');
-       }
-
        if (is_string($error)) {
            $this->errors[] = $error;
        } elseif (is_array($error)) {
            $this->errors += $error;
+       } else {
+           throw new Exception('Аргумент $error должен быть строкой или массивом');
        }
 
        return true;

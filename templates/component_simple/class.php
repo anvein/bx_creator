@@ -1,7 +1,5 @@
 <?php
-
 #NAMESPACE#
-
 use CBitrixComponent;
 
 class #CLASS_NAME# extends CBitrixComponent

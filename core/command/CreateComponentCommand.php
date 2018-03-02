@@ -136,15 +136,14 @@ class CreateComponentCommand extends Command
         }
 
         // подтверждение пользователя
+
         // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEV-VALUE
         if (/*$this->approveCreating($input, $output, $config) ||*/ true) {
             $creator = new SimpleCompCreator($config);
 
-            $resCreatorRun = $creator->run();
-            if (!$resCreatorRun){
-                $arErrors = $creator->getErrors();
+            if (!$creator->run()){
                 $this->printArray(
-                    $arErrors,
+                    $creator->getErrors(),
                     Color::col('При создании компонента возникли ошибки:', 'r'),
                     $output
                 );

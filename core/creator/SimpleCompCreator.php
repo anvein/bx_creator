@@ -14,7 +14,9 @@ class SimpleCompCreator extends Creator
      */
     public function run()
     {
+        echo 'ss';
         if (!parent::run()) {
+            $this->addError($this->config->getErrors());
             return false;
         }
 
@@ -52,7 +54,7 @@ class SimpleCompCreator extends Creator
 
         $namespace = '';
         if (!empty($this->config->getNamespace())) {
-            $namespace = "namespace {$this->config->getNamespace()};";
+            $namespace = "\nnamespace {$this->config->getNamespace()};\n";
         }
 
 
@@ -63,6 +65,10 @@ class SimpleCompCreator extends Creator
             ],
             $pathTmpComp . '/class.php'
         );
+
+
+
+        //FileManager::reCreateTmpDir();
 
         return true;
     }
