@@ -8,6 +8,7 @@ use anvi\bxcreator\creator\SimpleCompCreator;
 use anvi\bxcreator\tools\Color;
 use anvi\bxcreator\configurator\IConfigurator;
 use anvi\bxcreator\configurator\CompConfigurator;
+use anvi\bxcreator\tools\FileManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -118,7 +119,7 @@ class CreateComponentCommand extends Command
 
 
     /**
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)

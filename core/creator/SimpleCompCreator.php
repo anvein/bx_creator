@@ -14,7 +14,6 @@ class SimpleCompCreator extends Creator
      */
     public function run()
     {
-        echo 'ss';
         if (!parent::run()) {
             $this->addError($this->config->getErrors());
             return false;
@@ -26,7 +25,7 @@ class SimpleCompCreator extends Creator
         FileManager::reCreateTmpDir();
 
         if (!is_dir($this->config->getPath())) {
-            $this->addError("Дирректории с компонентами {$this->config->getPath()} не существует");
+            $this->addError("Дирректория с компонентами {$this->config->getPath()} не существует");
             return false;
         }
 
@@ -57,7 +56,6 @@ class SimpleCompCreator extends Creator
             $namespace = "\nnamespace {$this->config->getNamespace()};\n";
         }
 
-
         Replacer::replaceHashstags(
             [
                 '#NAMESPACE#' => $namespace,
@@ -66,9 +64,17 @@ class SimpleCompCreator extends Creator
             $pathTmpComp . '/class.php'
         );
 
+        $arCompFiles = FileManager::getFilesRecursive($pathTmpComp);
+        foreach ($arCompFiles as $file) {
+            Replacer::clearHashtags($file);
+        }
 
 
-        //FileManager::reCreateTmpDir();
+        if (!FileManager::copyDir($pathTmpComp, $compPath )) {
+            $this->addError("Не удалось скопировать дирректорию компонента из временной папки в {$this->config->getPath()}");
+        }
+
+        FileManager::reCreateTmpDir();
 
         return true;
     }

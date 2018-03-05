@@ -4,6 +4,9 @@ namespace anvi\bxcreator\tools;
 
 use anvi\bxcreator\Application;
 use Exception;
+use FilesystemIterator;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class FileManager
 {
@@ -32,8 +35,6 @@ class FileManager
 
         return true;
     }
-
-
 
     /**
      * Проверяет существует ли папка $path
@@ -99,5 +100,53 @@ class FileManager
         return true;
     }
 
+
+    /**
+     * Возвращает рекурсивно собранные файлы с расширениями $extensions (обертка getFilesRecursiveSub)
+     * @param $path - путь к дирректории из которой надо получить рекурсивно файлы
+     * @param array $extensions - массив-фильтр файлов по расширениям
+     * @return array - массив с путями к файлам
+     * @throws Exception - если $path не является дирректорией или не существует
+     */
+    public static function getFilesRecursive($path, array $extensions = [])
+    {
+        if (!is_dir($path)) {
+            throw new Exception("Путь {$path} не является дирректорией");
+        }
+
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        return static::getFilesRecursiveSub($iterator, $extensions);
+    }
+
+    /**
+     * Возвращает рекурсивно собранные файлы с расширениями $extensions
+     * @param $iterator - RecursiveIterator
+     * @param array $extensions - массив с искомыми расширениями
+     * @return array - итоговый массив с путями к файлам
+     */
+    public static function getFilesRecursiveSub($iterator, array $extensions = [])
+    {
+        $arFiles = [];
+        /** @var SplFileInfo $iPath */
+        foreach ($iterator as $iPath) {
+            if ($iPath->getBasename() === '..') {
+                continue;
+            }
+
+            if ($iPath->isDir()) {
+                $bufFiles = static::getFilesRecursiveSub($iPath, $extensions);
+                $arFiles = array_merge($bufFiles, $arFiles);
+            } else {
+                $ext = $iPath->getExtension();
+
+                if (empty($extensions)) {
+                    $arFiles[] = $iPath->getPathname();
+                } elseif (array_search($ext, $extensions) !== false) {
+                    $arFiles[] = $iPath->getPathname();
+                }
+            }
+        }
+        return $arFiles;
+    }
 
 }

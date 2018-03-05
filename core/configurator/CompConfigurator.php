@@ -174,8 +174,6 @@ class CompConfigurator extends Configurator
         $arErrors = [];
 
         $parResult = parent::validate();
-        print_r($parResult);
-        die();
         $arErrors += is_array($parResult) ? $parResult : [];
 
         $arAllowType = [self::SIMPLE_COMPONENT, self::COMPLEX_COMPONENT];

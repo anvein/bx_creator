@@ -128,7 +128,7 @@ class Configurator implements IConfigurator, IError
 
         if (empty($this->path)) {
             $errors[] = "Не указан путь где должен быть создан {$this->code}";
-        } elseif (is_dir($this->path)) {
+        } elseif (!is_dir($this->path)) {
             $errors[] = "Путь, где должен быть создан {$this->code} не существует";
         }
 

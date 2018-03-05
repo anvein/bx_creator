@@ -56,7 +56,7 @@ class Replacer
         if ($fileContent === false) {
             return false;
         } else {
-            $fileContent = preg_replace('/#[a-z0-9_]#/i','', $fileContent);
+            $fileContent = preg_replace('/#[a-zA-Z0-9_]*#/i','', $fileContent);
         }
 
         if (file_put_contents($path, $fileContent) === false) {
