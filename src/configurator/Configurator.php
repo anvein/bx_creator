@@ -11,26 +11,28 @@ abstract class Configurator implements IConfigurator, IError
     use ErrorTrait;
 
     /**
-     * Название "объекта" (например: компонент / модуль)
+     * Название "объекта" (например: компонент / модуль).
+     *
      * @var null
      */
     protected $title = null;
 
     /**
-     * Путь к папке, где надо создать "объект"
+     * Путь к папке, где надо создать "объект".
+     *
      * @var null
      */
     protected $path = null;
 
     /**
-     * Название "объекта" (например: название компонента - news.list)
+     * Название "объекта" (например: название компонента - news.list).
+     *
      * @var null
      */
     protected $name = null;
 
-
     /**
-     * Configurator constructor
+     * Configurator constructor.
      */
     public function __construct($code)
     {
@@ -40,7 +42,8 @@ abstract class Configurator implements IConfigurator, IError
     }
 
     /**
-     * Возвращает название "объекта"
+     * Возвращает название "объекта".
+     *
      * @return string
      */
     public function getTitle()
@@ -49,7 +52,8 @@ abstract class Configurator implements IConfigurator, IError
     }
 
     /**
-     * Задает название "объекта"
+     * Задает название "объекта".
+     *
      * @param string $title
      */
     public function setTitle($title)
@@ -58,10 +62,13 @@ abstract class Configurator implements IConfigurator, IError
     }
 
     /**
-     * Задает значение $value параметру $codeParam в конфигураторе
+     * Задает значение $value параметру $codeParam в конфигураторе.
+     *
      * @param $codeParam
      * @param $value - значение
+     *
      * @return $this - объект конфигуратора
+     *
      * @throws Exception - если у конфигуратора нет параметра $codeParam
      */
     protected function setParam($codeParam, $value)
@@ -76,9 +83,12 @@ abstract class Configurator implements IConfigurator, IError
     }
 
     /**
-     * Получает значение параметра $codeParam из конфигуратора
+     * Получает значение параметра $codeParam из конфигуратора.
+     *
      * @param $codeParam - код параметра
+     *
      * @return mixed - значение параметра
+     *
      * @throws Exception - если у конфигуратора нет параметра $codeParam
      */
     protected function getParam($codeParam)
@@ -89,7 +99,6 @@ abstract class Configurator implements IConfigurator, IError
             throw new Exception("У конфига нет параметра {$codeParam}");
         }
     }
-
 
     /**
      * @inheritdoc
@@ -152,6 +161,7 @@ abstract class Configurator implements IConfigurator, IError
             return true;
         } else {
             $this->addError($errors);
+
             return false;
         }
     }
@@ -166,5 +176,4 @@ abstract class Configurator implements IConfigurator, IError
             "Путь к папке, где надо создать объект: {$this->path}",
         ];
     }
-
 }

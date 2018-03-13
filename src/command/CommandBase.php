@@ -12,17 +12,16 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Class CommandBase
- * Базовый класс для консольных команд
- * @package anvein\bxcreator\command
+ * Базовый класс для консольных команд.
  */
 class CommandBase extends Command
 {
     /**
-     * Папка из которой происходит запуск скрипта
+     * Папка из которой происходит запуск скрипта.
+     *
      * @var null
      */
     protected $launchDir = null;
-
 
     /**
      * @var InputInterface
@@ -34,10 +33,11 @@ class CommandBase extends Command
      */
     protected $output = null;
 
-
     /**
      * CreateComponentCommand constructor.
+     *
      * @param string $launchDir - путь, откуда будет запущен скрипт
+     *
      * @throws Exception - если путь $launchDir не существует или не указан
      */
     public function __construct($launchDir)
@@ -48,15 +48,16 @@ class CommandBase extends Command
             throw new \Exception("Указанный путь {$launchDir} не существует или не является дирректорией");
         }
 
-        $this->launchDir =  realpath($launchDir);
+        $this->launchDir = realpath($launchDir);
 
         parent::__construct();
     }
 
     /**
-     * Выводит массив в консоль
-     * @param array           $arInfo - массив, который надо вывести
-     * @param string          $title - залоговок
+     * Выводит массив в консоль.
+     *
+     * @param array  $arInfo - массив, который надо вывести
+     * @param string $title  - залоговок
      */
     protected function printArray(array $arInfo = [], $title = '')
     {
@@ -72,14 +73,16 @@ class CommandBase extends Command
     }
 
     /**
-     * Интерактивный вопрос "Создавать ли компонент?"
-     * @param IConfigurator   $config
+     * Интерактивный вопрос "Создавать ли компонент?".
+     *
+     * @param IConfigurator $config
+     *
      * @return bool - продолжить ли создание компонента?
      */
     protected function approveCreating(IConfigurator $config)
     {
         $arInfo = $config->getInfo();
-        $this->output->writeln(Color::col("==== Проверьте указанные параметры", 'y'));
+        $this->output->writeln(Color::col('==== Проверьте указанные параметры', 'y'));
         $this->printArray($arInfo, null);
 
         $helper = $this->getHelper('question');

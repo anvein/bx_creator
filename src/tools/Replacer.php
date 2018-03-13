@@ -6,15 +6,17 @@ use Exception;
 
 class Replacer
 {
-
     /**
-     * Заменяет в файле $path #теги# на текст переданные в массиве $arReplase
+     * Заменяет в файле $path #теги# на текст переданные в массиве $arReplase.
+     *
      * @param array $arReplace - массив с заменами ['#HASHTAG#' => 'заменяемое значение']
      * @param $path - путь к файлу в котором нужно произвести замену
+     *
      * @return bool - true, если всё заменилось, false, если пустой $arReplace, $path или путь $path не найден
+     *
      * @throws Exception - если не удалось записать измененные данные в файл
      */
-     public static function replaceHashstags(array $arReplace = [], $path)
+    public static function replaceHashstags(array $arReplace = [], $path)
     {
         if (empty($arReplace) || empty($path)) {
             return false;
@@ -39,11 +41,13 @@ class Replacer
         return true;
     }
 
-
     /**
-     * Удаляет из файла $path все #хештеги#
+     * Удаляет из файла $path все #хештеги#.
+     *
      * @param $path - путь к файлу в котором нужно произвести удаление #хештегов#
+     *
      * @return bool - true, если #хештеги# заменились
+     *
      * @throws Exception - если не удалось записать измененные данные в файл
      */
     public static function clearHashtags($path)
@@ -56,7 +60,7 @@ class Replacer
         if ($fileContent === false) {
             return false;
         } else {
-            $fileContent = preg_replace('/#[a-zA-Z0-9_]*#/i','', $fileContent);
+            $fileContent = preg_replace('/#[a-zA-Z0-9_]*#/i', '', $fileContent);
         }
 
         if (file_put_contents($path, $fileContent) === false) {
@@ -65,5 +69,4 @@ class Replacer
 
         return true;
     }
-
 }

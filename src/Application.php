@@ -5,15 +5,14 @@ namespace anvein\bx_creator;
 class Application
 {
     /**
-     * путь к composer autoload.php отсительно Application.php
+     * путь к composer autoload.php отсительно Application.php.
      */
     const COMPOSER_PATH = '/../../../autoload.php';
 
     /**
-     * Путь к корневой папке относительно Application.php
+     * Путь к корневой папке относительно Application.php.
      */
     const ROOT_DIR = '/..';
-
 
     /**
      * @var string
@@ -35,20 +34,22 @@ class Application
     }
 
     /**
-     * Возвращает объект приложения Application
+     * Возвращает объект приложения Application.
+     *
      * @return Application - объект приложения
      */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = new Application();
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
     /**
-     * Возвращает полный путь к корневой папке библиотеки
+     * Возвращает полный путь к корневой папке библиотеки.
+     *
      * @return string
      */
     public function getRootDir()
@@ -56,14 +57,12 @@ class Application
         return realpath($this->rootDir);
     }
 
-
     /**
      * Запуск приложения
      * TODO: надо ли?
      */
     public function run()
     {
-
         return true;
     }
 }

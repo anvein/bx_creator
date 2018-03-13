@@ -4,7 +4,6 @@ namespace anvein\bx_creator\tools;
 
 use anvein\bx_creator\Application;
 use Exception;
-use FilesystemIterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -12,9 +11,9 @@ class FileManager
 {
     const TMP_DIR = '/tmp';
 
-
     /**
-     * Создает папку для временных файлов '/tmp', если она уже есть, то пересоздает её
+     * Создает папку для временных файлов '/tmp', если она уже есть, то пересоздает её.
+     *
      * @throws Exception - если папки нет и не удалось папку
      */
     public static function reCreateTmpDir()
@@ -34,8 +33,10 @@ class FileManager
     }
 
     /**
-     * Проверяет существует ли папка $path
+     * Проверяет существует ли папка $path.
+     *
      * @param $path - проверяемый путь
+     *
      * @return bool - true, если существует, иначе false
      */
     public static function existDir($path)
@@ -49,7 +50,8 @@ class FileManager
     }
 
     /**
-     * Рекурсивно копирует папку со всеми вложениями
+     * Рекурсивно копирует папку со всеми вложениями.
+     *
      * @param $from - путь откуда копировать
      * @param $to - путь куда копировать
      */
@@ -59,7 +61,7 @@ class FileManager
             @mkdir($to);
             $d = dir($from);
             while (false !== ($entry = $d->read())) {
-                if ($entry == "." || $entry == "..") {
+                if ($entry == '.' || $entry == '..') {
                     continue;
                 }
                 self::copyDir("{$from}/{$entry}", "{$to}/{$entry}");
@@ -71,7 +73,8 @@ class FileManager
     }
 
     /**
-     * Рекурсивно удаляет папку
+     * Рекурсивно удаляет папку.
+     *
      * @param $path - путь к удаляемой папке
      */
     public static function removeDir($path)
@@ -91,12 +94,14 @@ class FileManager
         rmdir($path);
     }
 
-
     /**
-     * Возвращает рекурсивно собранные файлы с расширениями $extensions (обертка getFilesRecursiveSub)
+     * Возвращает рекурсивно собранные файлы с расширениями $extensions (обертка getFilesRecursiveSub).
+     *
      * @param $path - путь к дирректории из которой надо получить рекурсивно файлы
      * @param array $extensions - массив-фильтр файлов по расширениям
+     *
      * @return array - массив с путями к файлам
+     *
      * @throws Exception - если $path не является дирректорией или не существует
      */
     public static function getFilesRecursive($path, array $extensions = [])
@@ -106,13 +111,16 @@ class FileManager
         }
 
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
         return static::getFilesRecursiveSub($iterator, $extensions);
     }
 
     /**
-     * Возвращает рекурсивно собранные файлы с расширениями $extensions
+     * Возвращает рекурсивно собранные файлы с расширениями $extensions.
+     *
      * @param $iterator - RecursiveIterator
      * @param array $extensions - массив с искомыми расширениями
+     *
      * @return array - итоговый массив с путями к файлам
      */
     public static function getFilesRecursiveSub($iterator, array $extensions = [])
@@ -137,7 +145,7 @@ class FileManager
                 }
             }
         }
+
         return $arFiles;
     }
-
 }

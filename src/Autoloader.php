@@ -7,8 +7,10 @@ use Exception;
 class Autoloader
 {
     private static $arPaths = [];
+
     /**
-     * Запускает автозагрузку перечисленными способами
+     * Запускает автозагрузку перечисленными способами.
+     *
      * @throw Exception - в случае, если класс не найден
      */
     public static function init()
@@ -28,16 +30,19 @@ class Autoloader
                 }
             }
             if ($findClass) {
-                require_once($pathToClassFile);
+                require_once $pathToClassFile;
             } else {
                 throw new Exception("Класс {$className} не найден");
             }
         });
     }
+
     /**
-     * Добавление путей для поиска файлов с классами
+     * Добавление путей для поиска файлов с классами.
+     *
      * @return array $paths - пути поиска файлов
      * @return array $arPaths - пути поиска файлов с классами
+     *
      * @throws Exception - в случае, если пути поиска не заданы или один из них не существует
      */
     public static function addPaths(array $paths)
@@ -48,12 +53,17 @@ class Autoloader
         foreach ($paths as $path) {
             self::addPath($path);
         }
+
         return self::$arPaths;
     }
+
     /**
-     * Добавление путей для поиска файлов с классами
-     * @param  string $path - путь поиска файлов
+     * Добавление путей для поиска файлов с классами.
+     *
+     * @param string $path - путь поиска файлов
+     *
      * @return array $arPaths - пути поиска файлов с классами
+     *
      * @throws Exception - в случае, если путь поиска не задан или не существует
      */
     public static function addPath($path)
@@ -63,6 +73,7 @@ class Autoloader
         }
         if (is_dir($path)) {
             self::$arPaths[] = $path;
+
             return self::$arPaths;
         } else {
             throw new Exception("Путь для поиска файлов с классами не существует {$path}");

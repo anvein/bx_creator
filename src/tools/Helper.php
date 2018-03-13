@@ -5,8 +5,10 @@ namespace anvein\bx_creator\tools;
 class Helper
 {
     /**
-     * Приводит строку к CamelCase даже с разделителями (._,-:+=)
+     * Приводит строку к CamelCase даже с разделителями (._,-:+=).
+     *
      * @param string $str - входная строка
+     *
      * @return string - обработанная строка
      */
     public static function strToCamelCase($str)
@@ -24,10 +26,11 @@ class Helper
         return $result;
     }
 
-
     /**
      * Конвертирует пустое значение - "Нет", true - "Да", массив склеивает
+     *
      * @param null $str - конверируемый параметр
+     *
      * @return string - "Нет", "Да", строка со склененными элементами массива
      */
     public static function tfConvert($str = null)
@@ -44,10 +47,11 @@ class Helper
         return $result;
     }
 
-
     /**
-     * Подготавливает строку $namespace с namespace (заменяет \ на //)
+     * Подготавливает строку $namespace с namespace (заменяет \ на //).
+     *
      * @param null $namespace - подготавливаемая исходная строка
+     *
      * @return string - подготовленная строка с namespace
      */
     public static function prepareNamescape($namespace = null)
@@ -57,7 +61,5 @@ class Helper
         }
 
         return $namespace = str_replace('/', '\\', $namespace);
-
     }
-
 }

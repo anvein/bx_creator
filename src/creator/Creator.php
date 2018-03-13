@@ -5,19 +5,17 @@ namespace anvein\bx_creator\creator;
 use anvein\bx_creator\configurator\IConfigurator;
 use anvein\bx_creator\IError;
 use anvein\bx_creator\tools\ErrorTrait;
-use Exception;
 
 abstract class Creator implements ICreator, IError
 {
     use ErrorTrait;
 
     /**
-     * Объект конфигуратора
+     * Объект конфигуратора.
      *
      * @var IConfigurator
      */
     protected $config = null;
-
 
     /**
      * @inheritdoc
@@ -31,5 +29,4 @@ abstract class Creator implements ICreator, IError
      * @inheritdoc
      */
     abstract public function run();
-
 }

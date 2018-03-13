@@ -12,10 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class CreateComponentCommand extends CommandBase
 {
-
     /**
      * @inheritdoc
      */
@@ -76,7 +74,6 @@ class CreateComponentCommand extends CommandBase
             ->setHelp('Создание структуты компонента битрикса');
     }
 
-
     /**
      * @inheritdoc
      */
@@ -98,6 +95,7 @@ class CreateComponentCommand extends CommandBase
 
         if (!$this->approveCreating($config)) {
             $output->writeln(Color::col('Отмена создания компонента', 'r'));
+
             return;
         }
 
@@ -116,8 +114,10 @@ class CreateComponentCommand extends CommandBase
     }
 
     /**
-     * Задает параметры конфигуратору из $input
-     * @param IConfigurator  $config - объект конфигуратора
+     * Задает параметры конфигуратору из $input.
+     *
+     * @param IConfigurator $config - объект конфигуратора
+     *
      * @return IConfigurator - объект конфигуратора с заданными настройками
      */
     private function setConfigParams(IConfigurator $config)
@@ -126,10 +126,9 @@ class CreateComponentCommand extends CommandBase
             ->setName($this->input->getArgument('name'))
             ->setPath($this->launchDir . '/' . $this->input->getArgument('path'))
             ->setNamespace($this->input->getOption('namespace'))
-            ->setCreateLang((bool)$this->input->getOption('lang'))
+            ->setCreateLang((bool) $this->input->getOption('lang'))
             ->setCreateParams($this->input->getOption('params'))
             ->setCreateDescr($this->input->getOption('descr'))
             ->setType($this->input->getOption('type'));
     }
-
 }

@@ -70,8 +70,8 @@ class ComponentComplex extends CBitrixComponent
      * Обрабатывает адрес на основании ЧПУ.
      *
      * @param string $folder
-     * @param array $sefUrlTemplates
-     * @param array $sefVariableAliases
+     * @param array  $sefUrlTemplates
+     * @param array  $sefVariableAliases
      *
      * @return array
      */
@@ -138,10 +138,13 @@ class ComponentComplex extends CBitrixComponent
     /**
      * Проверяет имеет ли указанный пользователь доступ к указанной странице компонента,
      * на основании переданных в третьем параметре правил.
+     *
      * @param $userId
      * @param $page
      * @param $rules
+     *
      * @return bool|mixed
+     *
      * @throws SecurityException
      */
     protected function canUserAccess($userId, $page, $rules)
@@ -179,7 +182,7 @@ class ComponentComplex extends CBitrixComponent
     /**
      * Может ли пользователь выполнять хотя бы одну из указанных операций.
      *
-     * @param int $userId
+     * @param int   $userId
      * @param array $operations
      *
      * @return bool
@@ -204,7 +207,7 @@ class ComponentComplex extends CBitrixComponent
     /**
      * Может ли пользователь выполнять хотя бы одну из указанных операций для соответствующего инфоблока.
      *
-     * @param int $userId
+     * @param int   $userId
      * @param array $operations
      *
      * @return bool
@@ -225,7 +228,9 @@ class ComponentComplex extends CBitrixComponent
                     $operations['iblock'],
                     $operation
                 );
-                if (!$res) continue;
+                if (!$res) {
+                    continue;
+                }
                 $return = true;
                 break;
             }
@@ -237,7 +242,7 @@ class ComponentComplex extends CBitrixComponent
     /**
      * Может ли пользователь выполнять хотя бы одну из указанных операций для соответствующей секции инфоблока.
      *
-     * @param int $userId
+     * @param int   $userId
      * @param array $operations
      *
      * @return bool
@@ -259,7 +264,9 @@ class ComponentComplex extends CBitrixComponent
                     $operations['iblock'],
                     $operation
                 );
-                if (!$res) continue;
+                if (!$res) {
+                    continue;
+                }
                 $return = true;
                 break;
             }
@@ -272,7 +279,7 @@ class ComponentComplex extends CBitrixComponent
      * Обрабатывает исключение.
      *
      * @param Exception $e
-     * @param int $userId
+     * @param int       $userId
      */
     protected function handleException(Exception $e, $userId)
     {
@@ -310,5 +317,4 @@ class ComponentComplex extends CBitrixComponent
     {
         Tools::process404('', true, false, true, $this->arParams['PAGE_404']);
     }
-
 }

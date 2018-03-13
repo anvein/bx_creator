@@ -6,7 +6,6 @@ use anvein\bx_creator\configurator\IConfigurator;
 
 interface ICreator
 {
-
     /**
      * IConfugurator constructor.
      *
@@ -14,12 +13,8 @@ interface ICreator
      */
     public function __construct(IConfigurator $config);
 
-
     /**
-     * Cоздание объекта по конфигу
-     *
-     * @return void
+     * Cоздание объекта по конфигу.
      */
     public function run();
-
 }

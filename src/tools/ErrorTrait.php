@@ -11,7 +11,6 @@ trait ErrorTrait
      */
     protected $errors = [];
 
-
     /**
      * @inheritdoc
      */
@@ -45,5 +44,4 @@ trait ErrorTrait
             return false;
         }
     }
-
 }

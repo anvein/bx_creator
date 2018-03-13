@@ -21,19 +21,20 @@ class SimpleCompCreator extends Creator
 
         if (!is_dir($this->config->getPath())) {
             $this->addError("Дирректории с компонентами {$this->config->getPath()} не существует");
+
             return;
         }
 
         $compPath = $this->config->getPath() . '/' . $this->config->getName();
         if (is_dir($compPath)) {
             $this->addError("Компонент {$this->config->getName()} уже существует");
+
             return;
         }
 
         $fromPath = $rootDir . '/templates/component_simple';
         $pathTmpComp = $rootDir . FileManager::TMP_DIR . '/' . $this->config->getName();
         FileManager::copyDir($fromPath, $pathTmpComp);
-
 
         if (!$this->config->getCreateParams()) {
             unlink("{$pathTmpComp}/.parameters.php");
@@ -45,7 +46,7 @@ class SimpleCompCreator extends Creator
 
         // lang-файлы
         if (!$this->config->getCreateLang()) {
-            FileManager::removeDir("/lang");
+            FileManager::removeDir('/lang');
         } else {
             if (!$this->config->getCreateParams()) {
                 unlink("{$pathTmpComp}/lang/ru/.parameters.php");
@@ -81,5 +82,4 @@ class SimpleCompCreator extends Creator
 
         return;
     }
-
 }
