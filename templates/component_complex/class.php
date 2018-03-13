@@ -1,6 +1,6 @@
 <?php
 
-namespace components\anvi;
+namespace components\anvein;
 
 use Exception;
 use InvalidArgumentException;

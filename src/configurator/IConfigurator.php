@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bx_creator\configurator;
+namespace anvein\bx_creator\configurator;
 
 interface IConfigurator
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bx_creator\command;
+namespace anvein\bx_creator\command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,7 +48,7 @@ class CreateModuleCommand extends Command
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
-                'Название модуля [anvi.pipedrive]'
+                'Название модуля [anvein.pipedrive]'
             )
             ->addArgument(
                 'path',

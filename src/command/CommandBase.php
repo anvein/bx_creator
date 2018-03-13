@@ -1,10 +1,10 @@
 <?php
 
-namespace anvi\bx_creator\command;
+namespace anvein\bx_creator\command;
 
 use Exception;
-use anvi\bx_creator\tools\Color;
-use anvi\bx_creator\configurator\IConfigurator;
+use anvein\bx_creator\tools\Color;
+use anvein\bx_creator\configurator\IConfigurator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Class CommandBase
  * Базовый класс для консольных команд
- * @package anvi\bxcreator\command
+ * @package anvein\bxcreator\command
  */
 class CommandBase extends Command
 {

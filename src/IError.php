@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bx_creator;
+namespace anvein\bx_creator;
 
 interface IError
 {

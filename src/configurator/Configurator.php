@@ -1,9 +1,9 @@
 <?php
 
-namespace anvi\bx_creator\configurator;
+namespace anvein\bx_creator\configurator;
 
-use anvi\bx_creator\tools\ErrorTrait;
-use anvi\bx_creator\IError;
+use anvein\bx_creator\tools\ErrorTrait;
+use anvein\bx_creator\IError;
 use Exception;
 
 abstract class Configurator implements IConfigurator, IError
