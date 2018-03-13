@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bxcreator\command;
+namespace anvi\bx_creator\command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -1,12 +1,12 @@
 <?php
 
-namespace anvi\bxcreator\configurator;
+namespace anvi\bx_creator\configurator;
 
-use anvi\bxcreator\tools\ErrorTrait;
-use anvi\bxcreator\IError;
+use anvi\bx_creator\tools\ErrorTrait;
+use anvi\bx_creator\IError;
 use Exception;
 
-class Configurator implements IConfigurator, IError
+abstract class Configurator implements IConfigurator, IError
 {
     use ErrorTrait;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace anvi\bxcreator\tools;
+namespace anvi\bx_creator\tools;
 
 class Color
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace anvi\bxcreator\creator;
+namespace anvi\bx_creator\creator;
 
-use anvi\bxcreator\configurator\IConfigurator;
-use anvi\bxcreator\IError;
-use anvi\bxcreator\tools\ErrorTrait;
+use anvi\bx_creator\configurator\IConfigurator;
+use anvi\bx_creator\IError;
+use anvi\bx_creator\tools\ErrorTrait;
 use Exception;
 
-class Creator implements ICreator, IError
+abstract class Creator implements ICreator, IError
 {
     use ErrorTrait;
 
     /**
      * Объект конфигуратора
      *
-     * @var \anvi\bxcreator\configurator\IConfigurator
+     * @var IConfigurator
      */
     protected $config = null;
 
@@ -30,9 +30,6 @@ class Creator implements ICreator, IError
     /**
      * @inheritdoc
      */
-    public function run()
-    {
-        
-    }
+    abstract public function run();
 
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace anvi\bxcreator\configurator;
+namespace anvi\bx_creator\configurator;
 
-use anvi\bxcreator\tools\Helper;
+use anvi\bx_creator\tools\Helper;
 
 class CompConfigurator extends Configurator
 {

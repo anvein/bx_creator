@@ -1,8 +1,8 @@
 <?php
 
-namespace anvi\bxcreator\tools;
+namespace anvi\bx_creator\tools;
 
-use anvi\bxcreator\Application;
+use anvi\bx_creator\Application;
 use Exception;
 use FilesystemIterator;
 use RecursiveIteratorIterator;

@@ -1,8 +1,8 @@
 <?php
 
-namespace anvi\bxcreator\creator;
+namespace anvi\bx_creator\creator;
 
-use anvi\bxcreator\configurator\IConfigurator;
+use anvi\bx_creator\configurator\IConfigurator;
 
 interface ICreator
 {
@@ -10,7 +10,7 @@ interface ICreator
     /**
      * IConfugurator constructor.
      *
-     * @param \Anvi\bxcreator\configurator\IConfigurator $config - объект конфигуратора
+     * @param \Anvi\bx_creator\configurator\IConfigurator $config - объект конфигуратора
      */
     public function __construct(IConfigurator $config);
 

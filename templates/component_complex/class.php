@@ -4,11 +4,15 @@ namespace components\anvi;
 
 use Exception;
 use InvalidArgumentException;
+use CUser;
+use CEventLog;
+use CIBlockRights;
 use CBitrixComponent;
+use Bitrix\Main\Loader;
+use CComponentEngine;
 use Bitrix\Main\Application;
 use Bitrix\Iblock\Component\Tools;
 use Bitrix\Main\Security\SecurityException;
-
 
 class ComponentComplex extends CBitrixComponent
 {
@@ -48,15 +52,14 @@ class ComponentComplex extends CBitrixComponent
             $canAccess = $this->arResult['CURRENT_USER_IS_ADMIN'] ||
                 $this->canUserAccess($userId, $this->arResult['PAGE'], $this->arParams['USER_RULES']);
             $pageExists = !empty($this->arResult['PAGE']);
-            $elementIsConference = $this->checkElementIsConference($this->arResult['VARIABLES']['ELEMENT']);
 
-            if (!$pageExists) {
-                $this->show404();
-                //throw new ObjectNotFoundException('Page not found');
+            if ($pageExists) {
+                $this->IncludeComponentTemplate($this->arResult['PAGE']);
             } elseif (!$canAccess) {
                 throw new SecurityException('Access denied');
             } else {
-                $this->IncludeComponentTemplate($this->arResult['PAGE']);
+                $this->show404();
+                //throw new ObjectNotFoundException('Page not found');
             }
         } catch (Exception $e) {
             $this->handleException($e, $userId);
@@ -132,7 +135,6 @@ class ComponentComplex extends CBitrixComponent
         ];
     }
 
-
     /**
      * Проверяет имеет ли указанный пользователь доступ к указанной странице компонента,
      * на основании переданных в третьем параметре правил.
@@ -145,20 +147,6 @@ class ComponentComplex extends CBitrixComponent
     protected function canUserAccess($userId, $page, $rules)
     {
         $return = true;
-
-        $event = new Event('sbnpf.legal_person_office', 'ApiOnBeforeAccessCheck', [
-            'userId' => $userId,
-            'component' => $this,
-            'page' => $page,
-        ]);
-        $event->send();
-        foreach ($event->getResults() as $eventResult) {
-            if (EventResult::SUCCESS === $eventResult->getType()) {
-                continue;
-            }
-            $return = false;
-            break;
-        }
 
         if (isset($rules[$page])) {
             if ($return && isset($rules[$page]['is_authorized'])) {
@@ -186,26 +174,6 @@ class ComponentComplex extends CBitrixComponent
         }
 
         return $return;
-    }
-
-    /**
-     * Проверяет домен для основного сайта или нет
-     * Для основного сайта domain.updomain - true
-     * Для конференций поддомен вида sbdnm.domain.updomain - false
-     * @return bool
-     */
-    private function isMainSiteDomain()
-    {
-        global $APPLICATION;
-
-        $domain = Application::getInstance()->getContext()->getRequest()->getHttpHost();
-        $domainParts = explode('.', $domain);
-
-        if (count($domainParts) === 2) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**

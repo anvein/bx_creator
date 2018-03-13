@@ -1,10 +1,10 @@
 <?php
 
-namespace anvi\bxcreator\command;
+namespace anvi\bx_creator\command;
 
 use Exception;
-use anvi\bxcreator\tools\Color;
-use anvi\bxcreator\configurator\IConfigurator;
+use anvi\bx_creator\tools\Color;
+use anvi\bx_creator\configurator\IConfigurator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

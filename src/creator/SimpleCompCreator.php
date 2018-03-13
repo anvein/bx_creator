@@ -1,11 +1,11 @@
 <?php
 
-namespace anvi\bxcreator\creator;
+namespace anvi\bx_creator\creator;
 
-use anvi\bxcreator\Application;
-use anvi\bxcreator\tools\FileManager;
-use anvi\bxcreator\tools\Helper;
-use anvi\bxcreator\tools\Replacer;
+use anvi\bx_creator\Application;
+use anvi\bx_creator\tools\FileManager;
+use anvi\bx_creator\tools\Helper;
+use anvi\bx_creator\tools\Replacer;
 
 class SimpleCompCreator extends Creator
 {

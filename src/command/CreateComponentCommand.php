@@ -1,12 +1,12 @@
 <?php
 
-namespace anvi\bxcreator\command;
+namespace anvi\bx_creator\command;
 
-use anvi\bxcreator\Application;
-use anvi\bxcreator\creator\SimpleCompCreator;
-use anvi\bxcreator\tools\Color;
-use anvi\bxcreator\configurator\IConfigurator;
-use anvi\bxcreator\configurator\CompConfigurator;
+use anvi\bx_creator\Application;
+use anvi\bx_creator\creator\SimpleCompCreator;
+use anvi\bx_creator\tools\Color;
+use anvi\bx_creator\configurator\IConfigurator;
+use anvi\bx_creator\configurator\CompConfigurator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
