@@ -46,6 +46,20 @@ interface IConfigurator
      */
     public function getInfo();
 
+
+    /**
+     * Возвращает название "объекта"
+     * @return string
+     */
+    public function getTitle();
+
+    /**
+     * Задает название "объекта"
+     * @param string $title
+     */
+    public function setTitle($title);
+
+
     /**
      * Валидация параметров конфигуратора
      * @return bool - false, если валидация не прошла, иначе true<br>

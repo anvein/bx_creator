@@ -11,10 +11,10 @@ class Configurator implements IConfigurator, IError
     use ErrorTrait;
 
     /**
-     * Код "объекта"
+     * Название "объекта" (например: компонент / модуль)
      * @var null
      */
-    protected $code = null;
+    protected $title = null;
 
     /**
      * Путь к папке, где надо создать "объект"
@@ -23,7 +23,7 @@ class Configurator implements IConfigurator, IError
     protected $path = null;
 
     /**
-     * Название "объекта"
+     * Название "объекта" (например: название компонента - news.list)
      * @var null
      */
     protected $name = null;
@@ -34,14 +34,28 @@ class Configurator implements IConfigurator, IError
      */
     public function __construct($code)
     {
-        if (empty($code)) {
-            throw new Exception('Не передан обязательный атрибут $code');
-        } else {
-            $this->code = $code;
+        if (!empty($code)) {
+            $this->title = $code;
         }
     }
 
+    /**
+     * Возвращает название "объекта"
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
+    /**
+     * Задает название "объекта"
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
     /**
      * Задает значение $value параметру $codeParam в конфигураторе
@@ -55,7 +69,7 @@ class Configurator implements IConfigurator, IError
         if (property_exists($this, $codeParam)) {
             $this->$codeParam = $value;
         } else {
-            throw new Exception("У конфиша нет параметра {$codeParam}");
+            throw new Exception("У конфига нет параметра {$codeParam}");
         }
 
         return $this;
@@ -120,7 +134,7 @@ class Configurator implements IConfigurator, IError
     {
         $errors = [];
         if (empty($this->name)) {
-            $errors[] = "Не указано название {$this->code}";
+            $errors[] = "Не указано название {$this->title}";
         }
 
 //        // TODO: валидировать name
@@ -129,9 +143,9 @@ class Configurator implements IConfigurator, IError
 //        }
 
         if (empty($this->path)) {
-            $errors[] = "Не указан путь где должен быть создан {$this->code}";
+            $errors[] = "Не указан путь где должен быть создан {$this->title}";
         } elseif (!is_dir($this->path)) {
-            $errors[] = "Путь, где должен быть создан {$this->code} не существует";
+            $errors[] = "Путь, где должен быть создан {$this->title} не существует";
         }
 
         if (empty($errors)) {

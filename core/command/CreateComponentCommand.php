@@ -7,51 +7,14 @@ use anvi\bxcreator\creator\SimpleCompCreator;
 use anvi\bxcreator\tools\Color;
 use anvi\bxcreator\configurator\IConfigurator;
 use anvi\bxcreator\configurator\CompConfigurator;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Exception;
 
 
-class CreateComponentCommand extends Command
+class CreateComponentCommand extends CommandBase
 {
-    /**
-     * Папка из которой происходит запуск скрипта
-     * @var null
-     */
-    protected $launchDir = null;
-
-
-    /**
-     * @var InputInterface
-     */
-    protected $input = null;
-
-    /**
-     * @var OutputInterface
-     */
-    protected $output = null;
-
-    /**
-     * CreateComponentCommand constructor.
-     * @param string $launchDir - путь, откуда будет запущен скрипт
-     * @throws Exception - если путь $launchDir не существует или не указан
-     */
-    public function __construct($launchDir)
-    {
-        if (empty($launchDir)) {
-            throw new \Exception('Не указан обязательный аргумент $launchDir');
-        } elseif (!is_dir($launchDir)) {
-            throw new \Exception("Указанный путь {$launchDir} не существует");
-        }
-
-        $this->launchDir =  realpath($launchDir);
-
-        parent::__construct();
-    }
 
     /**
      * @inheritdoc
@@ -126,7 +89,7 @@ class CreateComponentCommand extends Command
 
         $output->writeln(Color::col('===> Create Bitrix component', 'g'));
 
-        $config = new CompConfigurator('component');
+        $config = new CompConfigurator('компонент');
         $config = $this->setConfigParams($config);
 
         if (!$config->validate()) {
@@ -152,47 +115,6 @@ class CreateComponentCommand extends Command
         }
     }
 
-
-    /**
-     * Выводит массив в консоль
-     * @param array           $arInfo - массив, который надо вывести
-     * @param string          $title - залоговок
-     */
-    private function printArray(array $arInfo = [], $title = '')
-    {
-        if (!empty($title)) {
-            $this->output->writeln(Color::col($title, 'y'));
-        }
-
-        if (!empty($arInfo)) {
-            foreach ($arInfo as $infoLine) {
-                $this->output->writeln($infoLine);
-            }
-        }
-    }
-
-
-    /**
-     * Интерактивный вопрос "Создавать ли компонент?"
-     * @param IConfigurator   $config
-     * @return bool - продолжить ли создание компонента?
-     */
-    private function approveCreating(IConfigurator $config)
-    {
-        $arInfo = $config->getInfo();
-        $this->output->writeln(Color::col("==== Проверьте указанные параметры", 'y'));
-        $this->printArray($arInfo, null, $this->output);
-
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion(
-            Color::col('Всё верно? Продолжить создание компонента? [y/n]', 'y'),
-            false
-        );
-        $result = $helper->ask($this->input, $this->output, $question);
-
-        return $result;
-    }
-
     /**
      * Задает параметры конфигуратору из $input
      * @param IConfigurator  $config - объект конфигуратора
@@ -202,7 +124,7 @@ class CreateComponentCommand extends Command
     {
         return $config
             ->setName($this->input->getArgument('name'))
-            ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $this->input->getArgument('path'))
+            ->setPath($this->launchDir . '/' . $this->input->getArgument('path'))
             ->setNamespace($this->input->getOption('namespace'))
             ->setCreateLang((bool)$this->input->getOption('lang'))
             ->setCreateParams($this->input->getOption('params'))
