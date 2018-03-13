@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["bitrix", "modules", "components", "модули", "компоненты", "битрикс", "конструктор"],
     "license": "MIT",
-    "bin": ["bin/bx_creator"],
+    "bin": ["src/bin/bx_creator"],
     "require": {
         "php": ">=5.5.9",
         "symfony/console": "~3.4"
