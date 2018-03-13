@@ -2,17 +2,19 @@
 
 namespace anvi\bxcreator\configurator;
 
+use anvi\bxcreator\tools\ErrorTrait;
 use anvi\bxcreator\IError;
 use Exception;
 
 class Configurator implements IConfigurator, IError
 {
+    use ErrorTrait;
+
     /**
      * Код "объекта"
      * @var null
      */
     protected $code = null;
-    protected $errors = [];
 
     /**
      * Путь к папке, где надо создать "объект"
@@ -149,35 +151,6 @@ class Configurator implements IConfigurator, IError
             "Название объекта: {$this->name}",
             "Путь к папке, где надо создать объект: {$this->path}",
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addError($error)
-    {
-       if (is_string($error)) {
-           $this->errors[] = $error;
-       } elseif (is_array($error)) {
-           $this->errors += $error;
-       } else {
-           throw new Exception('Аргумент $error должен быть строкой или массивом');
-       }
-
-       return true;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function getErrors()
-    {
-       if (empty($this->errors)) {
-           return false;
-       } else {
-           return $this->errors;
-       }
     }
 
 }

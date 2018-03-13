@@ -3,12 +3,10 @@
 namespace anvi\bxcreator\command;
 
 use anvi\bxcreator\Application;
-use anvi\bxcreator\creator\Creator;
 use anvi\bxcreator\creator\SimpleCompCreator;
 use anvi\bxcreator\tools\Color;
 use anvi\bxcreator\configurator\IConfigurator;
 use anvi\bxcreator\configurator\CompConfigurator;
-use anvi\bxcreator\tools\FileManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,14 +26,12 @@ class CreateComponentCommand extends Command
 
 
     /**
-     * InputInterface  $input
-     * @var null
+     * @var InputInterface
      */
     protected $input = null;
 
     /**
-     * OutputInterface  $input
-     * @var null
+     * @var OutputInterface
      */
     protected $output = null;
 
@@ -90,9 +86,9 @@ class CreateComponentCommand extends Command
             ->addOption(
                 'lang',
                 null,
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-                'Для каких языков создать lang файлы [--lang=ru --lang=en]',
-                []
+//                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_NONE,
+                'Для каких языков создать lang файлы [--lang=ru,en]'
             )
             ->addOption(
                 'params',
@@ -109,51 +105,50 @@ class CreateComponentCommand extends Command
             ->addOption(
                 'complex_file',
                 null,
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-                'Какие создать файлы для комплексного компонента? [news.php]',
+                InputOption::VALUE_REQUIRED,
+                'Какие создать файлы для комплексного компонента? [news,news.list,news.detail]',
                 []
             )
-            ->setDescription('Создание структуты компонента битрикса')
+            ->setDescription('Создание структуры компонента битрикса')
             ->setHelp('Создание структуты компонента битрикса');
     }
 
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->input = $input;
+        $this->output = $output;
+
         //$app = Application::getInstance();
 
         $output->writeln(Color::col('===> Create Bitrix component', 'g'));
 
         $config = new CompConfigurator('component');
-        $config = $this->setConfigParams($config, $input);
+        $config = $this->setConfigParams($config);
 
-        $resValidate = $config->validate();
-        if (is_array($resValidate)) {
-            $this->printArray($resValidate, Color::col('Обнаружены ошибки в параметрах:', 'r'), $output);
+        if (!$config->validate()) {
+            $this->printArray($config->getErrors(), Color::col('Обнаружены ошибки в параметрах:', 'r'));
         }
 
-        // подтверждение пользователя
+        if (!$this->approveCreating($config)) {
+            $output->writeln(Color::col('Отмена создания компонента', 'r'));
+            return;
+        }
 
-        // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEV-VALUE
-        if (/*$this->approveCreating($input, $output, $config) ||*/ true) {
-            $creator = new SimpleCompCreator($config);
+        $creator = new SimpleCompCreator($config);
+        $creator->run();
 
-            if (!$creator->run()){
-                $this->printArray(
-                    $creator->getErrors(),
-                    Color::col('При создании компонента возникли ошибки:', 'r'),
-                    $output
-                );
-                $output->writeln(Color::col('Компонент не создан', 'r'));
-            }
-
+        if ($creator->isSuccess()) {
             $output->writeln(Color::col('Компонент успешно создан', 'g'));
         } else {
-            $output->writeln(Color::col('Отмена создания компонента', 'r'));
+            $this->printArray(
+                $creator->getErrors(),
+                Color::col('При создании компонента возникли ошибки:', 'r')
+            );
+            $output->writeln(Color::col('Компонент не создан', 'r'));
         }
     }
 
@@ -162,17 +157,16 @@ class CreateComponentCommand extends Command
      * Выводит массив в консоль
      * @param array           $arInfo - массив, который надо вывести
      * @param string          $title - залоговок
-     * @param OutputInterface $output - объект вывода консоли
      */
-    private function printArray(array $arInfo = [], $title = '', OutputInterface $output)
+    private function printArray(array $arInfo = [], $title = '')
     {
         if (!empty($title)) {
-            $output->writeln(Color::col($title, 'y'));
+            $this->output->writeln(Color::col($title, 'y'));
         }
 
         if (!empty($arInfo)) {
             foreach ($arInfo as $infoLine) {
-                $output->writeln($infoLine);
+                $this->output->writeln($infoLine);
             }
         }
     }
@@ -180,45 +174,40 @@ class CreateComponentCommand extends Command
 
     /**
      * Интерактивный вопрос "Создавать ли компонент?"
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      * @param IConfigurator   $config
      * @return bool - продолжить ли создание компонента?
      */
-    private function approveCreating(InputInterface $input, OutputInterface $output, IConfigurator $config)
+    private function approveCreating(IConfigurator $config)
     {
         $arInfo = $config->getInfo();
-        $output->writeln(Color::col("==== Проверьте указанные параметры", 'y'));
-        $this->printArray($arInfo, null, $output);
+        $this->output->writeln(Color::col("==== Проверьте указанные параметры", 'y'));
+        $this->printArray($arInfo, null, $this->output);
 
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion(
             Color::col('Всё верно? Продолжить создание компонента? [y/n]', 'y'),
             false
         );
-        $result = $helper->ask($input, $output, $question);
+        $result = $helper->ask($this->input, $this->output, $question);
 
         return $result;
     }
 
-
     /**
      * Задает параметры конфигуратору из $input
      * @param IConfigurator  $config - объект конфигуратора
-     * @param InputInterface $input - объект ввода консоли
      * @return IConfigurator - объект конфигуратора с заданными настройками
      */
-    private function setConfigParams(CompConfigurator $config, InputInterface $input)
+    private function setConfigParams(IConfigurator $config)
     {
         return $config
-            ->setName($input->getArgument('name'))
-            ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $input->getArgument('path'))
-            ->setNamespace($input->getOption('namespace'))
-            ->setLangFiles($input->getOption('lang'))
-            ->setCreateParams($input->getOption('params'))
-            ->setComplexFiles($input->getOption('complex_file'))
-            ->setCreateDescr($input->getOption('descr'))
-            ->setType($input->getOption('type'));
+            ->setName($this->input->getArgument('name'))
+            ->setPath($this->launchDir . DIRECTORY_SEPARATOR . $this->input->getArgument('path'))
+            ->setNamespace($this->input->getOption('namespace'))
+            ->setCreateLang((bool)$this->input->getOption('lang'))
+            ->setCreateParams($this->input->getOption('params'))
+            ->setCreateDescr($this->input->getOption('descr'))
+            ->setType($this->input->getOption('type'));
     }
 
 }

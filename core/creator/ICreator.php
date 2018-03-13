@@ -18,7 +18,7 @@ interface ICreator
     /**
      * Cоздание объекта по конфигу
      *
-     * @return bool - true, если объект создан, false, если возникли ошибки
+     * @return void
      */
     public function run();
 

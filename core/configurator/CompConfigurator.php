@@ -11,28 +11,13 @@ class CompConfigurator extends Configurator
 
     protected $type = self::SIMPLE_COMPONENT;
     protected $namespace = '';
+
     protected $createParams = false;
     protected $createDescr = false;
     protected $createLang = false;
 
-    // TODO: переделать в объект ConfParam (как то станадартизировать эти параметры)
-    /**
-     * @var array
-     * структура:
-     * [
-     *      'язык1' => [
-     *          'file1' => [
-     *              'ключ_языковой_фразы' => 'Фраза 1',
-     *              ...
-     *          ],
-     *          'file2' => [
-     *              ...
-     *          ]
-     *      ],
-     *      'язык2' => null // создаст файлы по умолчанию для язык2
-     * ]
-     */
-    protected $langFiles = [];
+    // TODO: создать класс для параметра LangFiles и вооще сделать класс для таких Параметров
+    protected $langFiles = null; // TODO: unused
     protected $complexFiles = [];
 
     /**
@@ -128,6 +113,15 @@ class CompConfigurator extends Configurator
 
     /**
      * Возвращает параметр createLang конфигуратора
+     * @return $this - значение параметра createLang
+     */
+    public function getCreateLang($value)
+    {
+        return $this->getParam('createLang');
+    }
+
+    /**
+     * Возвращает параметр createLang конфигуратора
      * @return mixed - значение параметра конфигуратора createLang
      */
     public function getLangFiles()
@@ -185,7 +179,8 @@ class CompConfigurator extends Configurator
         if (empty($arErrors)) {
             return true;
         } else {
-            return $arErrors;
+            $this->addError($arErrors);
+            return false;
         }
     }
 
@@ -201,7 +196,6 @@ class CompConfigurator extends Configurator
             "namespace: {$this->getNamespace()}",
             "Создавать ли файл .parameters.php: " . Helper::tfConvert($this->createParams),
             "Создавать ли файл .description.php: " . Helper::tfConvert($this->createDescr),
-            "Создавать ли файл .description.php: " . Helper::tfConvert($this->createDescr),
             "Создавать lang файлы для языков: " . Helper::tfConvert($this->createLang),
         ];
 
@@ -211,6 +205,5 @@ class CompConfigurator extends Configurator
 
         return $arInfo;
     }
-
 
 }

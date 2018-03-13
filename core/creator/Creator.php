@@ -3,20 +3,18 @@
 namespace anvi\bxcreator\creator;
 
 use anvi\bxcreator\configurator\IConfigurator;
-use Exception;
 use anvi\bxcreator\IError;
+use anvi\bxcreator\tools\ErrorTrait;
+use Exception;
 
 class Creator implements ICreator, IError
 {
-    /**
-     * @var array - Массив с ошибками
-     */
-    protected $errors = [];
+    use ErrorTrait;
 
     /**
      * Объект конфигуратора
      *
-     * @var null - \anvi\bxcreator\configurator\IConfigurator
+     * @var \anvi\bxcreator\configurator\IConfigurator
      */
     protected $config = null;
 
@@ -29,49 +27,12 @@ class Creator implements ICreator, IError
         $this->config = $config;
     }
 
-
     /**
      * @inheritdoc
      */
     public function run()
     {
-        if (!$this->config->validate()) {
-            $this->addError($this->config->getErrors());
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function addError($error)
-    {
-        if (is_string($error)) {
-            $this->errors[] = $error;
-        } elseif (is_array($error)) {
-            $this->errors += $error;
-        } else {
-            throw new Exception('Аргумент $error должен быть строкой или массивом');
-        }
-
-        return true;
-    }
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function getErrors()
-    {
-        if (empty($this->errors)) {
-            return false;
-        } else {
-            return $this->errors;
-        }
+        
     }
 
 }

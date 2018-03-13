@@ -14,8 +14,7 @@ class FileManager
 
 
     /**
-     * Создает папку для временных файлов '/tmp'
-     * @return bool - true, если папка создана или существует
+     * Создает папку для временных файлов '/tmp', если она уже есть, то пересоздает её
      * @throws Exception - если папки нет и не удалось папку
      */
     public static function reCreateTmpDir()
@@ -32,8 +31,6 @@ class FileManager
                 throw new Exception('Не удалось создать временную папку');
             }
         }
-
-        return true;
     }
 
     /**
@@ -55,7 +52,6 @@ class FileManager
      * Рекурсивно копирует папку со всеми вложениями
      * @param $from - путь откуда копировать
      * @param $to - путь куда копировать
-     * @return bool - true, если всё скопировалось
      */
     public static function copyDir($from, $to)
     {
@@ -72,14 +68,11 @@ class FileManager
         } else {
             copy($from, $to);
         }
-
-        return true;
     }
 
     /**
      * Рекурсивно удаляет папку
      * @param $path - путь к удаляемой папке
-     * @return bool - true, если папку удалилась
      */
     public static function removeDir($path)
     {
@@ -96,8 +89,6 @@ class FileManager
         }
         closedir($dir);
         rmdir($path);
-
-        return true;
     }
 
 

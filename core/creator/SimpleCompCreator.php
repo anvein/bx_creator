@@ -14,41 +14,48 @@ class SimpleCompCreator extends Creator
      */
     public function run()
     {
-        if (!parent::run()) {
-            $this->addError($this->config->getErrors());
-            return false;
-        }
-
         $app = Application::getInstance();
         $rootDir = $app->getRootDir();
 
         FileManager::reCreateTmpDir();
 
         if (!is_dir($this->config->getPath())) {
-            $this->addError("Дирректория с компонентами {$this->config->getPath()} не существует");
-            return false;
+            $this->addError("Дирректории с компонентами {$this->config->getPath()} не существует");
+            return;
         }
 
         $compPath = $this->config->getPath() . '/' . $this->config->getName();
         if (is_dir($compPath)) {
             $this->addError("Компонент {$this->config->getName()} уже существует");
-            return false;
+            return;
         }
 
         $fromPath = $rootDir . '/templates/component_simple';
         $pathTmpComp = $rootDir . FileManager::TMP_DIR . '/' . $this->config->getName();
-        if (!FileManager::copyDir($fromPath, $pathTmpComp)) {
-            $this->addError("Не удалось скопировать дирректорию компонента во временную дирректорию");
-        }
+        FileManager::copyDir($fromPath, $pathTmpComp);
 
 
         if (!$this->config->getCreateParams()) {
             unlink("{$pathTmpComp}/.parameters.php");
         }
 
-
         if (!$this->config->getCreateDescr()) {
             unlink("{$pathTmpComp}/.description.php");
+        }
+
+        // lang-файлы
+        if (!$this->config->getCreateLang()) {
+            FileManager::removeDir("/lang");
+        } else {
+            if (!$this->config->getCreateParams()) {
+                unlink("{$pathTmpComp}/lang/ru/.parameters.php");
+                unlink("{$pathTmpComp}/lang/en/.parameters.php");
+            }
+
+            if (!$this->config->getCreateDescr()) {
+                unlink("{$pathTmpComp}/lang/ru/.description.php");
+                unlink("{$pathTmpComp}/lang/en/.description.php");
+            }
         }
 
         $namespace = '';
@@ -69,14 +76,10 @@ class SimpleCompCreator extends Creator
             Replacer::clearHashtags($file);
         }
 
-
-        if (!FileManager::copyDir($pathTmpComp, $compPath )) {
-            $this->addError("Не удалось скопировать дирректорию компонента из временной папки в {$this->config->getPath()}");
-        }
-
+        FileManager::copyDir($pathTmpComp, $compPath);
         FileManager::reCreateTmpDir();
 
-        return true;
+        return;
     }
 
 }

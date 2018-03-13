@@ -11,7 +11,11 @@ class #CLASS_NAME# extends CBitrixComponent
      */
     public function onPrepareComponentParams($params)
     {
-        return parent::onPrepareComponentParams($params); // TODO: обработать входящие параметры компонента
+        // TODO: обработать входящие параметры компонента
+        $params = parent::onPrepareComponentParams($params);
+        $params['silent'] = empty($params['silent']) ? false : true;
+
+        return $params;
     }
 
     /**
@@ -20,7 +24,14 @@ class #CLASS_NAME# extends CBitrixComponent
      */
     public function executeComponent()
     {
-        return parent::executeComponent(); // TODO: проработать выполнение компонента
+        // TODO: проработать выполнение компонента
+
+
+        if ($this->arParams['silent']) {
+            return $this->arResult;
+        } else {
+            $this->includeComponentTemplate();
+        }
     }
 
 }

@@ -48,7 +48,8 @@ interface IConfigurator
 
     /**
      * Валидация параметров конфигуратора
-     * @return bool - если валидация не прошла, то false, иначе true
+     * @return bool - false, если валидация не прошла, иначе true<br>
+     * ошибки будут в объекте конфигуратора
      */
     public function validate();
 
