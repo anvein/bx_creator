@@ -1,5 +1,5 @@
 {
-    "name": "anvi/bx_creator",
+    "name": "anvein/bx_creator",
     "description": "Библиотека для создания модулей и компонентов для битрикс",
     "type": "library",
     "keywords": ["bitrix", "modules", "components", "модули", "компоненты", "битрикс", "конструктор"],
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "anvi\\bx_creator\\": "src/"
+            "anvein\\bx_creator\\": "src/"
         }
     },
     "authors": [
