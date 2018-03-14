@@ -21,14 +21,15 @@ class Replacer
             throw new Exception('Не передан обязательный параметр $path');
         } elseif (!file_exists($path)) {
             throw new Exception("Не найден файл {$path}");
-        } elseif (is_file($path)) {
+        } elseif (!is_file($path)) {
             throw new Exception("$path не является файлом");
         }
 
         $fileContent = file_get_contents($path);
         if ($fileContent !== false) {
-            foreach ($arReplace as $hashtag => $replace) {
-                $fileContent = str_replace(strtoupper($hashtag), $replace, $fileContent);
+            foreach ($arReplace as $codeTwigis => $replace) {
+                $twigis = '{% ' . strtoupper($codeTwigis) . ' %}';
+                $fileContent = str_replace($twigis, $replace, $fileContent);
             }
         }
 
@@ -51,13 +52,13 @@ class Replacer
             throw new Exception('Не передан обязательный параметр $path');
         } elseif (!file_exists($path)) {
             throw new Exception("Не найден файл {$path}");
-        } elseif (is_file($path)) {
+        } elseif (!is_file($path)) {
             throw new Exception("$path не является файлом");
         }
 
         $fileContent = file_get_contents($path);
         if ($fileContent !== false) {
-            $fileContent = preg_replace('{% [a-zA-Z0-9_]* %}/i', '', $fileContent);
+            $fileContent = preg_replace("/\{\% [a-zA-Z0-9_]* \%\}/i", '', $fileContent);
         }
 
         if (file_put_contents($path, $fileContent) === false) {

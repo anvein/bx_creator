@@ -66,8 +66,8 @@ class SimpleCompCreator extends Creator
 
         Replacer::replaceTwigis(
             [
-                '#NAMESPACE#' => $namespace,
-                '#CLASS_NAME#' => Helper::strToCamelCase($this->config->getName()),
+                'NAMESPACE' => $namespace,
+                'CLASS_NAME' => Helper::strToCamelCase($this->config->getName()),
             ],
             $pathTmpComp . '/class.php'
         );
