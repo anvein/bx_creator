@@ -1,8 +1,8 @@
 <?php
-
 $finder = PhpCsFixer\Finder::create()
-    ->exclude(__DIR__ . '/templates')
+    ->exclude([__DIR__ . '/templates'])
     ->in(__DIR__);
+
 $rules = [
     '@Symfony' => true,
     'new_with_braces' => false,

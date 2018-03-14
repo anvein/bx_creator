@@ -1,8 +1,8 @@
 <?php
-#NAMESPACE#
+{% NAMESPACE %}
 use CBitrixComponent;
 
-class #CLASS_NAME# extends CBitrixComponent
+class {% CLASS_NAME %} extends CBitrixComponent
 {
     /**
      * Подготовка входных параметров компонента
@@ -11,9 +11,10 @@ class #CLASS_NAME# extends CBitrixComponent
      */
     public function onPrepareComponentParams($params)
     {
-        // TODO: обработать входящие параметры компонента
         $params = parent::onPrepareComponentParams($params);
         $params['silent'] = empty($params['silent']) ? false : true;
+
+        // TODO: обработать входящие параметры компонента
 
         return $params;
     }
@@ -25,7 +26,6 @@ class #CLASS_NAME# extends CBitrixComponent
     public function executeComponent()
     {
         // TODO: проработать выполнение компонента
-
 
         if ($this->arParams['silent']) {
             return $this->arResult;

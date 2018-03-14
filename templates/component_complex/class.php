@@ -1,7 +1,5 @@
 <?php
-
-namespace components\anvein;
-
+{% NAMESPACE %}
 use Exception;
 use InvalidArgumentException;
 use CUser;
@@ -14,7 +12,7 @@ use Bitrix\Main\Application;
 use Bitrix\Iblock\Component\Tools;
 use Bitrix\Main\Security\SecurityException;
 
-class ComponentComplex extends CBitrixComponent
+class {% CLASS_NAME %} extends CBitrixComponent
 {
     /**
      * {@inheritdoc}
