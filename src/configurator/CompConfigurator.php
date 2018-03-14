@@ -157,13 +157,14 @@ class CompConfigurator extends Configurator
     /**
      * Установка параметра complexFiles конфигуратора.
      *
-     * @param $value - значение параметра complexFiles
+     * @param $complexFiles - значение параметра complexFiles
      *
      * @return $this - объект конфигуратора
      */
-    public function setComplexFiles($value)
+    public function setComplexFiles(array $complexFiles)
     {
-        return $this->setParam('complexFiles', (array) $value);
+        $complexFiles = array_unique($complexFiles);
+        return $this->setParam('complexFiles', $complexFiles);
     }
 
     /**
