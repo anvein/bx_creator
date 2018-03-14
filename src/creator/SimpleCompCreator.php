@@ -64,7 +64,7 @@ class SimpleCompCreator extends Creator
             $namespace = "\nnamespace {$this->config->getNamespace()};\n";
         }
 
-        Replacer::replaceHashstags(
+        Replacer::replaceTwigis(
             [
                 '#NAMESPACE#' => $namespace,
                 '#CLASS_NAME#' => Helper::strToCamelCase($this->config->getName()),
@@ -74,7 +74,7 @@ class SimpleCompCreator extends Creator
 
         $arCompFiles = FileManager::getFilesRecursive($pathTmpComp);
         foreach ($arCompFiles as $file) {
-            Replacer::clearHashtags($file);
+            Replacer::clearTwigis($file);
         }
 
         FileManager::copyDir($pathTmpComp, $compPath);

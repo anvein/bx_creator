@@ -13,7 +13,7 @@ class Color
     ];
 
     /**
-     * Красит (ap - apply, применяет) цвет к строке для консоли.
+     * Красит текст в строке для консоли.
      *
      * @param        $str   - исходная строка
      * @param string $color - название цвета (или первая буква)
@@ -49,7 +49,8 @@ class Color
     }
 
     /**
-     * Псевдоним self::colorize().
+     * Псевдоним self::colorize().<br>
+     * col ~ colorize.
      *
      * @param $str
      * @param string $color
