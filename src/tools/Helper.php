@@ -62,4 +62,23 @@ class Helper
 
         return $namespace = str_replace('/', '\\', $namespace);
     }
+
+    /**
+     * Конвертирует строку из консоли в массив, разбивая $str по $delimeter на элементы<br>
+     * и тримит получившиеся элементы
+     *
+     * @param $str - входная строка
+     * @param $delimiter - разделитель (по умолчанию ',')
+     *
+     * @return array
+     */
+    public static function convertStringToArray($str, $delimeter = ',')
+    {
+        $arStr = explode($delimeter, $str);
+        foreach ($arStr as $key => $str) {
+            $arStr[$key] = trim($str);
+        }
+
+        return $arStr;
+    }
 }

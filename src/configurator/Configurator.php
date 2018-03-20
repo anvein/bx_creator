@@ -103,9 +103,10 @@ abstract class Configurator implements IConfigurator, IError
     /**
      * @inheritdoc
      */
-    public function setName($value)
+    public function setName($name)
     {
-        return $this->setParam('name', $value);
+        $name = strtolower($name);
+        return $this->setParam('name', $name);
     }
 
     /**
@@ -119,13 +120,13 @@ abstract class Configurator implements IConfigurator, IError
     /**
      * @inheritdoc
      */
-    public function setPath($value)
+    public function setPath($path)
     {
-        if ($value[strlen($value) - 1] === DIRECTORY_SEPARATOR) {
-            $value = substr($value, 0, -1);
+        if ($path[strlen($path) - 1] === DIRECTORY_SEPARATOR) {
+            $path = substr($path, 0, -1);
         }
 
-        return $this->setParam('path', $value);
+        return $this->setParam('path', $path);
     }
 
     /**
@@ -145,11 +146,6 @@ abstract class Configurator implements IConfigurator, IError
         if (empty($this->name)) {
             $errors[] = "Не указано название {$this->title}";
         }
-
-//        // TODO: валидировать name
-//        if (preg_match('//', $this->name) === 1) {
-//            $errors[] = "Не указано название {$this->code}";
-//        }
 
         if (empty($this->path)) {
             $errors[] = "Не указан путь где должен быть создан {$this->title}";

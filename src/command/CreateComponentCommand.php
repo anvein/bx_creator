@@ -3,10 +3,11 @@
 namespace anvein\bx_creator\command;
 
 use anvein\bx_creator\Application;
+use anvein\bx_creator\creator\ComplexCompCreator;
 use anvein\bx_creator\creator\SimpleCompCreator;
 use anvein\bx_creator\tools\Color;
 use anvein\bx_creator\configurator\IConfigurator;
-use anvein\bx_creator\configurator\CompConfigurator;
+use anvein\bx_creator\configurator\ComponentConfigurator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -36,7 +37,7 @@ class CreateComponentCommand extends CommandBase
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Тип компонента [simple*/complex]',
-                CompConfigurator::SIMPLE_COMPONENT
+                ComponentConfigurator::SIMPLE_COMPONENT
             )
             ->addOption(
                 'namespace',
@@ -64,7 +65,7 @@ class CreateComponentCommand extends CommandBase
                 'Создавать ли файл .description.php'
             )
             ->addOption(
-                'complex_file',
+                'complex_templates',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Какие создать файлы для комплексного компонента? [news,news.list,news.detail]',
@@ -86,11 +87,15 @@ class CreateComponentCommand extends CommandBase
 
         $output->writeln(Color::col('===> Create Bitrix component', 'g'));
 
-        $config = new CompConfigurator('компонент');
+        $config = new ComponentConfigurator('компонент');
         $config = $this->setConfigParams($config);
+
 
         if (!$config->validate()) {
             $this->printArray($config->getErrors(), Color::col('Обнаружены ошибки в параметрах:', 'r'));
+            $output->writeln(Color::col('Отмена создания компонента', 'r'));
+
+            return;
         }
 
         if (!$this->approveCreating($config)) {
@@ -99,7 +104,11 @@ class CreateComponentCommand extends CommandBase
             return;
         }
 
-        $creator = new SimpleCompCreator($config);
+        if ($config->getType() === ComponentConfigurator::COMPLEX_COMPONENT) {
+            $creator = new ComplexCompCreator($config);
+        } else {
+            $creator = new SimpleCompCreator($config);
+        }
         $creator->run();
 
         if ($creator->isSuccess()) {
@@ -116,11 +125,11 @@ class CreateComponentCommand extends CommandBase
     /**
      * Задает параметры конфигуратору из $input.
      *
-     * @param IConfigurator $config - объект конфигуратора
+     * @param ComponentConfigurator $config - объект конфигуратора
      *
-     * @return IConfigurator - объект конфигуратора с заданными настройками
+     * @return ComponentConfigurator - объект конфигуратора с заданными настройками
      */
-    private function setConfigParams(IConfigurator $config)
+    private function setConfigParams(ComponentConfigurator $config)
     {
         return $config
             ->setName($this->input->getArgument('name'))

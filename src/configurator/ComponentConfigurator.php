@@ -4,7 +4,7 @@ namespace anvein\bx_creator\configurator;
 
 use anvein\bx_creator\tools\Helper;
 
-class CompConfigurator extends Configurator
+class ComponentConfigurator extends Configurator
 {
     const SIMPLE_COMPONENT = 'simple';
     const COMPLEX_COMPONENT = 'complex';

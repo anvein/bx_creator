@@ -14,11 +14,11 @@ interface IConfigurator
     /**
      * Задает значение $value параметру name в конфигураторе.
      *
-     * @param $value - значение параметра
+     * @param $name - значение параметра
      *
      * @return $this - объект конфигуратора
      */
-    public function setName($value);
+    public function setName($name);
 
     /**
      * Получает значение параметра name из конфигуратора.
@@ -30,11 +30,11 @@ interface IConfigurator
     /**
      * Задает значение $value параметру path в конфигураторе.
      *
-     * @param $value - значение параметра
+     * @param $path - значение параметра
      *
      * @return $this - объект конфигуратора
      */
-    public function setPath($value);
+    public function setPath($path);
 
     /**
      * Получает значение параметра path из конфигуратора.

@@ -64,8 +64,7 @@ class SimpleCompCreator extends Creator
             $namespace = "\nnamespace {$this->config->getNamespace()};\n";
         }
 
-        Replacer::replaceTwigis(
-            [
+        Replacer::replaceTwigis([
                 'NAMESPACE' => $namespace,
                 'CLASS_NAME' => Helper::strToCamelCase($this->config->getName()),
             ],
